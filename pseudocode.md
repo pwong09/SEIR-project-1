@@ -18,11 +18,10 @@ css setup
 - play again button 2
 
 //required constants
-a hidden square is <blank> color  
-a safe square is <some> color  
-a safe numbered square is <some> color (same color as safe square) showing <some> number  
-a revealed, bomb square is <some other> color  
-an array holding the possible numbers for numbered squares? 1 to 8?  
+a hidden square is __some__ color  
+a safe square is __another__ color  
+a safe numbered square is __another__ color (same color as safe square) showing <some> number  
+a revealed, bomb square is **some other** color  
 bomb value is 1  
 empty square value is 0  
 
@@ -32,13 +31,13 @@ a win variable - boolean
 a lose variable - boolean  
 
 //store elements on the page that will be accessed more than once  
-- squares - make in JS?
+- 64 squares - make in JS?
 - play again button 1
 - play again button 2
     
 //add eventListeners  
 onloading - initialize state variables  
-click and right-click   
+click and right-click on all 64 squares   
     
 
 //onloading - initialize the state variables  
@@ -52,7 +51,7 @@ make the board function [2d array - an array within an array! make it 8 x 8 - so
         results in board's indices being changed from 0 to 1. returns bomb indices for numbered squares]
       
     function for placing numbered squares somehow?  
-        [get bombs' indices, place corresponding numbered squares adjacent to the bomb  
+        [get bombs' indices, place a number on the squares adjacent to the bomb  
         so if a square is next to one bomb, number 1 should be next to it on all 8 sides  
         if there are two bombs, number 2, if there are three bombs, number 3, etc.]  
 
@@ -61,23 +60,23 @@ within render function:
 show the board with all hidden square colors  
 if winner variable is true - show the winning message / banner with play again button  
 if lose variable is true - show the losing message with play again button  
+if a square was right clicked: put a flag on it or take a flag off 
 
 //wait for the player to left-click a square  
 within leftHandleClick function:  
 get the index of the square - represented as [x][y] b/c of 2d array  
 if the index matches the bomb value -> reveal bomb square, set lose variable to true  
 if the index matches the empty value 0 -> set the square color to the empty square color  
-if the index matches the numbers value -> set the square color to the number square color and correspond number  
+//how to make the empty squares fan out??? check all the neighbors to see if value is 0?
+    
 winning function [total square number: 64 minus 8 bombs = 56 squares. If a empty / numbered square is clicked, add 1 to the counter.  
-When counter is 56, set win variable to true OR when all 8 bombs are flagged]  
-//how to make the empty squares fan out??? check all the neighbors to see if value is 0? this is separate from numbered square / it doesn't need to know the difference between empty and numbered square?  
+When counter is 56 OR when all 8 bombs are flagged - set win variable to true  
 
 //wait for the player to right-click a square  
 within rightHandleClick function:  
 get the index of the square  
-render the image of a flag onto that square  
-   if the square flagged has a bomb - tell the winning function? or tell something to keep track for winning function  
-make a flagged square unclickable?  
+if the square flagged has a bomb - tell the winning function? Or call the winning function to check if player has won  
+make a flagged square unclickable  
   
 
 
