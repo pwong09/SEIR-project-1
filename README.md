@@ -13,6 +13,7 @@ project 1 browser game
 
 Step 1: 
 
-☐ A wireframe of your "main" game screen.
+☐ A wireframe of your "main" game screen. 
+[wireframe](https://www.figma.com/file/VjNbEEBTZESgVrJ7cGKZr1/Untitled?node-id=0%3A1)
 
 ☐ Pseudocode for the overall game play.
