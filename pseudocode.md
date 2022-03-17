@@ -10,20 +10,20 @@ css setup
 - initial game board color
 
 //required constants
-a hidden square is <blank> color
-a safe square is <some> color
-a safe numbered square is <some> color (same color as safe square) showing <some> number 
-a revealed, bomb square is <some other> color
-an array holding the possible numbers for numbered squares? 1 to 8?
-bomb value is 1
-empty square value is 0
+a hidden square is <blank> color  
+a safe square is <some> color  
+a safe numbered square is <some> color (same color as safe square) showing <some> number  
+a revealed, bomb square is <some other> color  
+an array holding the possible numbers for numbered squares? 1 to 8?  
+bomb value is 1  
+empty square value is 0  
 
 //required variables that track the state of the game
-the board 
-a winner variable 
-a lose variable
+the board   
+a winner variable  
+a lose variable  
 
-//store elements on the page that will be accessed more than once
+//store elements on the page that will be accessed more than once  
 
 //onloading - initialize the state variables
 winner sets as false
