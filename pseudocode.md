@@ -36,7 +36,9 @@ a lose variable - boolean
 - play again button 1
 - play again button 2
     
-//add eventListeners click and right-click  
+//add eventListeners  
+onloading - initialize state variables  
+click and right-click   
     
 
 //onloading - initialize the state variables  
