@@ -17,10 +17,9 @@ css setup
 - play again button 1
 - play again button 2
 
-//required constants
+//required constants  
 a hidden square is __some__ color  
 a safe square is __another__ color  
-a safe numbered square is __another__ color (same color as safe square) showing <some> number  
 a revealed, bomb square is **some other** color  
 bomb value is 1  
 empty square value is 0  
@@ -69,14 +68,15 @@ if the index matches the bomb value -> reveal bomb square, set lose variable to 
 if the index matches the empty value 0 -> set the square color to the empty square color  
 //how to make the empty squares fan out??? check all the neighbors to see if value is 0?
     
-winning function [total square number: 64 minus 8 bombs = 56 squares. If a empty / numbered square is clicked, add 1 to the counter.  
-When counter is 56 OR when all 8 bombs are flagged - set win variable to true  
+winning function - total square number: 64 minus 8 bombs = 56 squares. 
+If a safe square is clicked, add 1 to the counter.  
+If counter is 56 OR all 8 bombs are flagged - set win variable to true  
 
 //wait for the player to right-click a square  
 within rightHandleClick function:  
 get the index of the square  
 if the square flagged has a bomb - tell the winning function? Or call the winning function to check if player has won  
-make a flagged square unclickable  
+make a flagged square unclickable for left clicks only   
   
 
 
