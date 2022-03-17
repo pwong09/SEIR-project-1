@@ -37,7 +37,7 @@ a lose variable - boolean
 //add eventListeners  
 onloading - initialize state variables  
 click and right-click on all 64 squares   
-    
+click on play again buttons
 
 //onloading - initialize the state variables  
 winner set as false  
