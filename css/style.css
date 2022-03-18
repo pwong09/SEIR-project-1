@@ -1,0 +1,43 @@
+:root {
+    --empty: #92A8CA;
+    --bomb: #F0D90A;
+    --hidden: #3B69AD;
+}
+body {
+    width: 100vh;
+    height: 100vh;
+}
+main {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.board{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr; 
+    width: 640px;
+    height: 640px;
+    border: 1px solid black;
+    background-color: var(--hidden);
+    margin-bottom: 88px;
+}
+
+.square{
+    width: 80px;
+    height: 80px;
+    border: 1px solid black;
+    background-color: var(--hidden);
+}
+button#hidden {
+    background-color: var(--hidden);
+    cursor: pointer
+}
+button#safe {
+    background-color: var(--empty);
+    cursor: not-allowed;
+}
+button#bomb {
+    background-color: var(--bomb);
+}
