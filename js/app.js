@@ -49,7 +49,7 @@ function init(e){
     flags = 0;
     safeSq = 0;
     makeBoard();
-    placeBombs();
+    placeBombs(maxBombs);
 }
 
 function render(){
@@ -67,6 +67,8 @@ function render(){
     } //end of for loop
     if (win) {
         console.log('you win!')
+
+        boardEl.removeEventListener('click', handleLeftClick);
     }
     
 }
@@ -83,6 +85,7 @@ function handleLeftClick(e){
         sq.id = 'safe';
         safeSq++;
         checkWinner();
+        console.log(safeSq)
     }
 render();
 }
@@ -120,23 +123,19 @@ function makeBoard(){
         }
     })
 }
-function placeBombs(){
-    // need to place maxBombs onto the board randomly
-    // each set of (x, y) coordinates = bomb
+function placeBombs(max){
     const randomArrayX = [];
     const randomArrayY = [];
     for (let i = 0; i < board.length; i++) {
-        randomArrayX[i] = Math.floor(Math.random() * 8);
-        randomArrayY[i] = Math.floor(Math.random() * 8);
-        // if (){
-        //     randomArrayX[i] = Math.floor(Math.random() * 8);
-        //     randomArrayY[i] = Math.floor(Math.random() * 8);
-        if (board[randomArrayX[i]][randomArrayY] === board[randomArrayX[i]][randomArrayY[i]]) {
-            randomArrayX[i] = Math.floor(Math.random() * 8);
-            randomArrayY[i] = Math.floor(Math.random() * 8);
-        }
-        board[randomArrayX[i]][randomArrayY[i]] = bomb;
-    }   
+        randomArrayX[i] = Math.floor(Math.random() * maxBombs);
+        randomArrayY[i] = Math.floor(Math.random() * maxBombs);
+        if (randomArrayX[i] === randomArrayY[i]) {
+            randomArrayX[i] = Math.floor(Math.random() * maxBombs);
+            randomArrayY[i] = Math.floor(Math.random() * maxBombs);
+        } else {
+            board[randomArrayX[i]][randomArrayY[i]] = bomb;
+        }  
+    }
     console.log(board);
     placeNumbers(board)
 }
@@ -151,21 +150,27 @@ function placeNumbers(array2D){
             console.log(sq);
             console.log(i); //this is where the bomb is!
             //8 squares to change around the bomb
-            if (!leftSide) {
-                squareEls[(i - 1)].innerText = 1;
-            }
-            if (!rightSide) {
-                squareEls[(i + 1)].innerText = 1;
-            }
-
-            
-
+            //square on left hand side
+            if (!leftSide) squareEls[(i - 1)].innerText = `${1}`;
+            //square on right hand side
+            if (!rightSide && i < 63) squareEls[(i + 1)].innerText = `${1}`;
+            //square below i is +8
+            if (i > 0 && i < 56) squareEls[(i + 8)].innerText = `${1}`;
+            //square above i is -8
+            if (i > 7 && i < 63) squareEls[(i - 8)].innerText = `${1}`;
+            //squares diagonally above and to the left 
+            if (!leftSide && i > 8) squareEls[(i - 9)].innerText = `${1}`;
+            //squares diagonally above and to the right
+            if (!rightSide && i > 8 && i < 63) squareEls[i - 7].innerText = `${1}`;
+            //squares diagonally below and to the left
+            if (!leftSide && i < 56) squareEls[(i + 7)].innerText = `${1}`;
+            //squares diagonally below and to the right
+            if (!rightSide && i < 56) squareEls[(i + 9)].innerText = `${1}`;
         }
     } //end of for loop
-    console.log('I place numbers next to revealed squares with bombs');
 }
 function checkWinner(){
-    if (flags === 8 || safeSq === 57) {
+    if (flags === 8 || safeSq === 56) {
         win = true;
     }
 }
