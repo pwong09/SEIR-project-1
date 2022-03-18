@@ -141,24 +141,31 @@ function placeBombs(){
     placeNumbers(board)
 }
 function placeNumbers(array2D){
-    console.log('I place numbers next to revealed squares with bombs')
-    for (let i = 0; i < array2D.length; i++){
-        for (let j =0; j < array2D.length; j++){
-            if (board[i][j] === bomb) {
-                if (board[i][j - 1] === safe) {
-                    ;
-                }
-                //check for the square next to the bomb
-                //if board[0][1] has a bomb, check board[0][0] 
-
+    for (let i = 0; i < 64; i++) {
+        let sq = squareEls[i];
+        let sqX = sq.getAttribute('data-x');
+        let sqY = sq.getAttribute('data-y');
+        let leftSide = i % 8 === 0;
+        let rightSide = i % 8 === .875;
+        if (board[sqX][sqY] === bomb) {
+            console.log(sq);
+            console.log(i); //this is where the bomb is!
+            //8 squares to change around the bomb
+            if (!leftSide) {
+                squareEls[(i - 1)].innerText = 1;
             }
+            if (!rightSide) {
+                squareEls[(i + 1)].innerText = 1;
+            }
+
+            
+
         }
-    }
-
-
+    } //end of for loop
+    console.log('I place numbers next to revealed squares with bombs');
 }
 function checkWinner(){
-    if (flags === 8 || safeSq === 56) {
+    if (flags === 8 || safeSq === 57) {
         win = true;
     }
 }
