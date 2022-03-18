@@ -10,7 +10,6 @@ let board;
 let flags;
 let safeSq;
 
-
 /*----cached eleemtns----*/
 const boardEl = document.querySelector('.board');
 
@@ -136,37 +135,42 @@ function placeBombs(max){
             board[randomArrayX[i]][randomArrayY[i]] = bomb;
         }  
     }
+    //need to figure out how to make sure number of bombs placed === max (maxBombs which is 8)
     console.log(board);
     placeNumbers(board)
 }
 function placeNumbers(array2D){
+        let bombCount = 0;
     for (let i = 0; i < 64; i++) {
         let sq = squareEls[i];
         let sqX = sq.getAttribute('data-x');
         let sqY = sq.getAttribute('data-y');
         let leftSide = i % 8 === 0;
         let rightSide = i % 8 === .875;
+        //bombCount++; //goes up for 64 times
         if (board[sqX][sqY] === bomb) {
-            console.log(sq);
-            console.log(i); //this is where the bomb is!
+            bombCount++; //this increases every time we find a bomb, but not for touching multiple bombs
+            console.log(sq); //this is where the bomb is!
             //8 squares to change around the bomb
             //square on left hand side
-            if (!leftSide) squareEls[(i - 1)].innerText = `${1}`;
+            if (!leftSide) squareEls[(i - 1)].innerText = `${bombCount}`;
             //square on right hand side
-            if (!rightSide && i < 63) squareEls[(i + 1)].innerText = `${1}`;
+            if (!rightSide && i < 63) squareEls[(i + 1)].innerText = `${bombCount}`;
             //square below i is +8
-            if (i > 0 && i < 56) squareEls[(i + 8)].innerText = `${1}`;
+            if (i > 0 && i < 56) squareEls[(i + 8)].innerText = `${bombCount}`;
             //square above i is -8
-            if (i > 7 && i < 63) squareEls[(i - 8)].innerText = `${1}`;
+            if (i > 7 && i < 63) squareEls[(i - 8)].innerText = `${bombCount}`;
             //squares diagonally above and to the left 
-            if (!leftSide && i > 8) squareEls[(i - 9)].innerText = `${1}`;
+            if (!leftSide && i > 8) squareEls[(i - 9)].innerText = `${bombCount}`;
             //squares diagonally above and to the right
-            if (!rightSide && i > 8 && i < 63) squareEls[i - 7].innerText = `${1}`;
+            if (!rightSide && i > 8 && i < 63) squareEls[i - 7].innerText = `${bombCount}`;
             //squares diagonally below and to the left
-            if (!leftSide && i < 56) squareEls[(i + 7)].innerText = `${1}`;
+            if (!leftSide && i < 56) squareEls[(i + 7)].innerText = `${bombCount}`;
             //squares diagonally below and to the right
-            if (!rightSide && i < 56) squareEls[(i + 9)].innerText = `${1}`;
+            if (!rightSide && i < 55) squareEls[(i + 9)].innerText = `${bombCount}`;
+            //bombCount++; //bombCount starts at 0 for finding the first bomb, so no thanks
         }
+        //bombCount--;//bombcount always at 1
     } //end of for loop
 }
 function checkWinner(){
