@@ -25,7 +25,7 @@ main {
 .square{
     width: 40px;
     height: 40px;
-    border: 1px solid black;
+    border: 2px solid white;
     background-color: var(--hidden);
 }
 .replay {
@@ -41,15 +41,28 @@ main {
 }
 button#hidden {
     background-color: var(--hidden);
-    
-
+    font-size: 0;
 }
 button#safe {
     background-color: var(--empty);
     cursor: not-allowed;
+    font-size: 16px;
 }
 button#bomb {
     background-color: var(--bomb);
+    background-image: url(../assets/bomb.png);
+    width: 100%;
+    height: auto;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+button#flag {
+    background-image: url(../assets/flag.png);
+    image-rendering: auto;
+    max-width: 100%;
+    height: auto;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 @media only screen and (min-width: 768px) {
