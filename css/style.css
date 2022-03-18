@@ -27,6 +27,7 @@ main {
     height: 40px;
     border: 2px solid white;
     background-color: var(--hidden);
+    font-size: 0px;
 }
 .replay {
     cursor: pointer;
@@ -41,7 +42,6 @@ main {
 }
 button#hidden {
     background-color: var(--hidden);
-    font-size: 0;
 }
 button#safe {
     background-color: var(--empty);

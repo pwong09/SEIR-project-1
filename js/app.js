@@ -32,7 +32,7 @@ for (let i = 0; i < 64; i++) {
     }
 }
 
-const squareEl = document.querySelector('.square');
+//const squareEl = document.querySelector('.square');
 const squareEls = document.querySelectorAll('.square');
 const replayBtn = document.querySelector('.replay');
 
@@ -50,17 +50,25 @@ function init(e){
     safeSq = 0;
     makeBoard();
     placeBombs();
-    placeNumbers();
 }
 
 function render(){
+    for (let i = 0; i < 64; i++) {
+        let sq = squareEls[i];
+        let sqX = sq.getAttribute('data-x');
+        let sqY = sq.getAttribute('data-y');
+        if (lose) {
+            console.log('you lose!')
+            if (board[sqX][sqY] === bomb) {
+                sq.id = 'bomb';
+            }
+            boardEl.removeEventListener('click', handleLeftClick);
+        }
+    } //end of for loop
     if (win) {
         console.log('you win!')
     }
-    if (lose) {
-        console.log('you lose!')
-        //show all bomb locations?
-    }
+    
 }
 
 function handleLeftClick(e){
@@ -69,8 +77,8 @@ function handleLeftClick(e){
     let sqX = sq.getAttribute('data-x');
     let sqY = sq.getAttribute('data-y');
     if (board[sqX][sqY] === bomb) {
-        lose = true;
         sq.id = 'bomb';
+        lose = true;
     } else {
         sq.id = 'safe';
         safeSq++;
@@ -130,16 +138,24 @@ function placeBombs(){
         board[randomArrayX[i]][randomArrayY[i]] = bomb;
     }   
     console.log(board);
+    placeNumbers(board)
 }
-function placeNumbers(){
+function placeNumbers(array2D){
     console.log('I place numbers next to revealed squares with bombs')
-    for (let i = 0; i < board.length; i++){
-        for (let j = 0; j < board.length; j++){
-            if(board[i][j] === bomb) {
-                squareEl.innerText = '1'; //place a number 1 on the square's innerText 
+    for (let i = 0; i < array2D.length; i++){
+        for (let j =0; j < array2D.length; j++){
+            if (board[i][j] === bomb) {
+                if (board[i][j - 1] === safe) {
+                    ;
+                }
+                //check for the square next to the bomb
+                //if board[0][1] has a bomb, check board[0][0] 
+
             }
         }
     }
+
+
 }
 function checkWinner(){
     if (flags === 8 || safeSq === 56) {
