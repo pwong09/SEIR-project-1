@@ -19,16 +19,14 @@ let y = 0;
 for (let i = 0; i < 64; i++) {
     const squareEl = document.createElement('button');
     squareEl.className = "square";
-    squareEl.id = `${x} ${y}`;
+    squareEl.setAttribute('data-x', `${x}`);
+    squareEl.setAttribute('data-y', `${y}`);
     boardEl.appendChild(squareEl);
-    console.log(x, y)
     if (y < 7) {
         y++;
-        console.log('below 7')
     } else {
         y = 0;
         x++;
-        console.log('above 7')
     }
 }
 
@@ -66,6 +64,7 @@ function render(){
 function handleLeftClick(e){
     let sq = e.target;
     if (sq.tagName === 'SECTION') return;
+    console.log(sq)
 }
 function handleRightClick(e){
 
@@ -101,32 +100,8 @@ function placeBombs(){
         }
         board[randomArrayX[i]][randomArrayY[i]] = bomb;
     }   
-    // for (let i = 0; i < squareEls.length; i++) {
-    //     let item = squareEls[i];
-        
-    //     for (let k = 0; k < board.length; k++) {
-    //         for (let j = 0; j< board.length; j++) {
-    //             //console.log(`${k}, ${j}`);
-    //             item.id = `${k}, ${j}`
-    //         }
-    //     }
-    //     // console.log(item);
-    // }
-
     console.log(board);
 }
 function placeNumbers(){
     console.log('I place numbers next to revealed squares with bombs')
 }
-
-
-
-    //I need the visual board squares to hold an ID containing 
-    //the array board's (x, y) coordinates
-    //array is indexed 0 to 7
-    //squares' IDs should each be unique and show
-    //(0,0), (0,1), (0,2), 
-    //(1,0), (1,1), (1,2),
-    //(2,0), (2,1), (2,2),
-    // ...
-    //(7,0), (7,1), (7,2),
