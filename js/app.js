@@ -49,6 +49,7 @@ function init(e){
     safeSq = 0;
     makeBoard();
     placeBombs(maxBombs);
+    render();
 }
 
 function render(){
@@ -169,7 +170,6 @@ function placeNumbers(array2D){
             //squares diagonally below and to the right
             if (!rightSide && i < 55) squareEls[(i + 9)].innerText = `${bombCount}`;
             //bombCount++; //bombCount starts at 0 for finding the first bomb, so no thanks
-            
         }
         //bombCount--;//bombcount always at 1
     } //end of for loop
