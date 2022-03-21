@@ -2,6 +2,7 @@
 const bomb = 1;
 const safe = 0;
 const maxBombs = 8;
+const boardX = 8;
 
 /*----state----*/
 let win;
@@ -49,12 +50,15 @@ function init(e){
     safeSq = 0;
     makeBoard();
     placeBombs(maxBombs);
+    squareEls.forEach(sq => {
+        sq.id = 'hidden'
+        sq.disabled = false;
+    });
     render();
 }
 
 function render(){
-    for (let i = 0; i < 64; i++) {
-        let sq = squareEls[i];
+    squareEls.forEach(sq => {
         let sqX = sq.getAttribute('data-x');
         let sqY = sq.getAttribute('data-y');
         if (lose) {
@@ -64,12 +68,15 @@ function render(){
             }
             boardEl.removeEventListener('click', handleLeftClick);
         }
-    } //end of for loop
-    if (win) {
-        console.log('you win!')
+        if (win) {
+            console.log('you win!')
+            if (board[sqX][sqY] === bomb) {
+                sq.id = 'bomb';
+            }
+            boardEl.removeEventListener('click', handleLeftClick);
+        }
 
-        boardEl.removeEventListener('click', handleLeftClick);
-    }
+    });//end of for loop
     
 }
 
@@ -83,6 +90,7 @@ function handleLeftClick(e){
         lose = true;
     } else {
         sq.id = 'safe';
+        sq.disabled = true;
         safeSq++;
         checkWinner();
         console.log(safeSq)
@@ -112,68 +120,113 @@ render();
 
 /*----helper functions----*/
 function makeBoard(){
-    const x = 8;
     board = [];
-    for (let i = 0; i < x; i++){
+    for (let i = 0; i < boardX; i++){
         board[i] = [];
     }
     board.forEach(row => {
-        for (let i = 0; i < x; i++){
+        for (let i = 0; i < boardX; i++){
             row.push(safe);
         }
     })
 }
 function placeBombs(max){
+    let bombCount = 0;
     const randomArrayX = [];
     const randomArrayY = [];
-    for (let i = 0; i < board.length; i++) {
-        randomArrayX[i] = Math.floor(Math.random() * maxBombs);
-        randomArrayY[i] = Math.floor(Math.random() * maxBombs);
-        if (randomArrayX[i] === randomArrayY[i]) {
-            randomArrayX[i] = Math.floor(Math.random() * maxBombs);
-            randomArrayY[i] = Math.floor(Math.random() * maxBombs);
-        } else {
-            board[randomArrayX[i]][randomArrayY[i]] = bomb;
-        }  
+    for (let i = 0; i < boardX; i++) {
+        randomArrayX[i] = Math.floor(Math.random() * boardX);
+        randomArrayY[i] = Math.floor(Math.random() * boardX);
+        // if (randomArrayX[i] === randomArrayY[i]) {
+        //     randomArrayX[i] = Math.floor(Math.random() * boardX);
+        //     randomArrayY[i] = Math.floor(Math.random() * boardY);
+        // } else {
+        board[randomArrayX[i]][randomArrayY[i]] = bomb;
+        bombCount++;
+        // }  
     }
-    //need to figure out how to make sure number of bombs placed === max (maxBombs which is 8)
+    console.log(bombCount)
+    // while (bombCount < max) {
+    //     for (let i = 0; i < board.length; i++) {
+    //         for (let j = 0; j < board.length; j++) {
+    //             if (board[i][j] === safe) {
+    //                 board[i][j] = bomb;
+                    
+    //             }
+    //         }
+    //     }
+    //     bombCount++ ;
+    // }
+    //need to figure out how to make sure number of bombs placed === max
+    console.log(`I've placed ${bombCount} bombs muahahahah`)
     console.log(board);
-    placeNumbers(board)
+    placeNumbers()
 }
-function placeNumbers(array2D){
+function placeNumbers(){
+    
+    for (let i = 0; i < squareEls.length; i++) {
         let bombCount = 0;
-    for (let i = 0; i < 64; i++) {
         let sq = squareEls[i];
-        let sqX = sq.getAttribute('data-x');
-        let sqY = sq.getAttribute('data-y');
+        let sqX = parseInt(sq.getAttribute('data-x'));
+        let sqY = parseInt(sq.getAttribute('data-y'));
         let leftSide = i % 8 === 0;
         let rightSide = i % 8 === .875;
-        //bombCount++; //goes up for 64 times
-        if (board[sqX][sqY] === bomb) {
-            bombCount++; //this increases every time we find a bomb, but not for touching multiple bombs
-            console.log(sq); //this is where the bomb is!
-            //8 squares to change around the bomb
-            //square on left hand side
-            if (!leftSide) squareEls[(i - 1)].innerText = `${bombCount}`;
-            //square on right hand side
-            if (!rightSide && i < 63) squareEls[(i + 1)].innerText = `${bombCount}`;
-            //square below i is +8
-            if (i > 0 && i < 56) squareEls[(i + 8)].innerText = `${bombCount}`;
-            //square above i is -8
-            if (i > 7 && i < 63) squareEls[(i - 8)].innerText = `${bombCount}`;
-            //squares diagonally above and to the left 
-            if (!leftSide && i > 8) squareEls[(i - 9)].innerText = `${bombCount}`;
-            //squares diagonally above and to the right
-            if (!rightSide && i > 8 && i < 63) squareEls[i - 7].innerText = `${bombCount}`;
-            //squares diagonally below and to the left
-            if (!leftSide && i < 56) squareEls[(i + 7)].innerText = `${bombCount}`;
-            //squares diagonally below and to the right
-            if (!rightSide && i < 55) squareEls[(i + 9)].innerText = `${bombCount}`;
-            //bombCount++; //bombCount starts at 0 for finding the first bomb, so no thanks
+        if (board[sqX][sqY] === safe) {
+            //sq is safe
+            //the safe square on right hand side - IT WORKS
+            if (!rightSide && board[sqX][(sqY-1)] === bomb) {
+                bombCount++;
+                sq.innerText = `${bombCount}`;
+                console.log('bomb is to the left!')
+            }
+            //the safe square is on left hand side - IT WORKS - most of the time....
+            if (!leftSide && board[sqX][sqY+1] === bomb){
+                bombCount++;
+                sq.innerText = `${bombCount}`;
+                console.log('bomb is to the right!')
+            }
+            //the safe square below the bomb - IT WORKS
+            if (i > 7 && board[(sqX - 1)][sqY] === bomb) {
+                bombCount++;
+                sq.innerText = `${bombCount}`;
+                console.log('bomb is above!')
+            }
+            // safe square above the bomb - IT WORKS
+            if (i < 56 && board[(sqX + 1)][sqY] === bomb) {
+                bombCount++;
+                sq.innerText = `${bombCount}`;
+                console.log('bomb is below!')
+            }
+            // safe square diagonally below and to the right - IT WORKS
+            if (!rightSide && i > 7 && board[(sqX - 1)][(sqY - 1)] === bomb) {
+                bombCount++;
+                sq.innerText = `${bombCount}`;
+                console.log('bomb is to the left & above!')
+            }
+            // safe sq diagonally below and to the left - IT WORKS
+            if (sqX > 0 && i < 63 && board[(sqX - 1)][(sqY + 1)] === bomb) {
+                bombCount++;
+                sq.innerText = `${bombCount}`;
+                console.log('bomb is to the right & above!')
+            }
+            // safe sq diagonally above and to the left
+            if (i < 56 && board[(sqX + 1)][(sqY - 1)] === bomb) {
+                bombCount++;
+                sq.innerText = `${bombCount}`;
+                console.log('bomb is to the right & below!')
+            }
+            // safe sq diagonally above and to the right
+            if (i < 56 && board[(sqX + 1)][(sqY + 1)] === bomb) {
+                bombCount++;
+                sq.innerText = `${bombCount}`;
+                console.log('bomb is to the left & below!')
+            }
         }
-        //bombCount--;//bombcount always at 1
     } //end of for loop
 }
+
+
+
 function checkWinner(){
     if (flags === 8 || safeSq === 56) {
         win = true;

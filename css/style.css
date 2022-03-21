@@ -1,5 +1,5 @@
 :root {
-    --empty: #92A8CA;
+    --empty: #b6cdf0;
     --bomb: #F0D90A;
     --hidden: #3B69AD;
 }
@@ -47,6 +47,7 @@ button#safe {
     background-color: var(--empty);
     cursor: not-allowed;
     font-size: 16px;
+    color: white;
 }
 button#bomb {
     background-color: var(--bomb);
