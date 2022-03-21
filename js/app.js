@@ -166,7 +166,7 @@ function placeNumbers(){
                 console.log('bomb is to the left!')
             }
             //the safe square is on left hand side - IT WORKS
-            if (board[sqX][sqY+1] === bomb){
+            if (board[sqX][(sqY+1)] === bomb){
                 bombCount++;
                 sq.innerText = `${bombCount}`;
                 console.log('bomb is to the right!')
@@ -217,11 +217,11 @@ function checkNeighbors(coordX, coordY) {
             let x = parseInt(sq.getAttribute('data-x'))
             let y = parseInt(sq.getAttribute('data-y'))
             if (coordX === x && coordY === y) sq.id = 'safe';
-            if ((coordX + 1) === x && coordY === y && board[x][y] === safe) sq.id = 'safe';
-            if ((coordX - 1) === x && coordY === y && board[x][y] === safe) sq.id = 'safe';
-            if ((coordY + 1) === y && coordX === x && board[x][y] === safe) sq.id = 'safe';
-            if ((coordY - 1) === y && coordX === x && board[x][y] === safe) sq.id = 'safe';
-            if (((coordX - 1) === x || (coordX +1) === x) && ((coordY - 1) === y || (coordY + 1) === y) && board[x][y] === safe) sq.id = 'safe';
+            if (((coordX + 1) === x || (coordX - 1) === x) && coordY === y && board[x][y] === safe) sq.id = 'safe';
+            if (((coordY + 1) === y || (coordY - 1) === y) && coordX === x && board[x][y] === safe) sq.id = 'safe';
+            if (((coordX - 1) === x || (coordX + 1) === x) && ((coordY - 1) === y || (coordY + 1) === y) && board[x][y] === safe) sq.id = 'safe';
+            //if ((coordX - 1) === x && coordY === y && board[x][y] === safe) sq.id = 'safe';
+            //if ((coordY - 1) === y && coordX === x && board[x][y] === safe) sq.id = 'safe';
             //if ((coordX + 1) === x  && ((coordY - 1) === y || (coordY+1) === y) && board[x][y] === safe) sq.id = 'safe';
             //if ((coordX - 1) === x && (coordY + 1) === y && board[x][y] === safe) sq.id = 'safe';
             //if ((coordX + 1) === x && (coordY + 1) === y && board[x][y] === safe) sq.id = 'safe';
