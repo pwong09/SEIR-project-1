@@ -8,7 +8,6 @@ let lose;
 let board;
 let flags;
 let safeSq;
-let size;
 let boardX;
 let maxBombs;
 
@@ -78,7 +77,6 @@ function render(){
             }
             boardEl.removeEventListener('click', handleLeftClick);
         }
-
     });//end of for loop
     
 }
@@ -86,15 +84,13 @@ function render(){
 function handleLeftClick(e){
     let sq = e.target;
     if (sq.tagName === 'SECTION') return;
-    let sqX = sq.getAttribute('data-x');
-    let sqY = sq.getAttribute('data-y');
+    let sqX = parseInt(sq.getAttribute('data-x'));
+    let sqY = parseInt(sq.getAttribute('data-y'));
     if (board[sqX][sqY] === bomb) {
         sq.id = 'bomb';
         lose = true;
     } else {
-        sq.id = 'safe';
-        sq.disabled = true;
-        safeSq++;
+        recursiveSquare(sqX, sqY);
         checkWinner();
         console.log(safeSq)
     }
@@ -134,33 +130,22 @@ function makeBoard(){
     })
 }
 function placeBombs(max){
-    let bombCount = 0;
+    let numOfBombs = 0;
     const randomArrayX = [];
     const randomArrayY = [];
     for (let i = 0; i < boardX; i++) {
         randomArrayX[i] = Math.floor(Math.random() * boardX);
         randomArrayY[i] = Math.floor(Math.random() * boardX);
-        // if (randomArrayX[i] === randomArrayY[i]) {
-        //     randomArrayX[i] = Math.floor(Math.random() * boardX);
-        //     randomArrayY[i] = Math.floor(Math.random() * boardY);
-        // } else {
-        board[randomArrayX[i]][randomArrayY[i]] = bomb;
-        bombCount++;
-        // }  
     }
-    // while (bombCount < max) {
-    //     for (let i = 0; i < board.length; i++) {
-    //         for (let j = 0; j < board.length; j++) {
-    //             if (board[i][j] === safe) {
-    //                 board[i][j] = bomb;
-                    
-    //             }
-    //         }
-    //     }
-    //     bombCount++ ;
-    // }
-    //need to figure out how to make sure number of bombs placed === max
-    console.log(`I've placed ${bombCount} bombs muahahahah`)
+    randomArrayX.forEach(x => {
+        randomArrayY.forEach(y => {
+            if(numOfBombs < max && board[x][y] === safe) {
+                board[x][y] = bomb;
+                numOfBombs++;
+            }
+        });
+    });
+    console.log(`I've placed ${numOfBombs} bombs muahahahah`)
     console.log(board);
     placeNumbers()
 }
@@ -226,7 +211,28 @@ function placeNumbers(){
         }
     } //end of for loop
 }
-
+        //a recursive function ?
+        //check surrounding squares
+        //if safe, change id to 'safe'
+        //keep going until board[x][y] is a bomb
+        //check for sqX +/- 1
+        //check for sqY +/- 1
+        //over and over again
+function recursiveSquare(coordX, coordY) {
+    //base case
+        if (coordX > 7) return;
+        if (coordX < 7 && board[coordX][coordY] === bomb) {
+            return
+        } else {
+            sq.id = 'safe'
+            sq.disabled = true;
+            safeSq++;
+            coordX = coordX + 1;
+            console.log('am I working?')
+            console.log(coordX)
+        }
+        recursiveSquare((coordX),coordY);
+}
 
 
 function checkWinner(){
