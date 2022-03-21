@@ -89,4 +89,19 @@ make it unclickable
 check neighboring squares to see if they're also safe
 for left and right - just +/- y coordinate 
 
-
+//recursive function to fan out just neighboring squares - not the whole row or column  
+base case
+if x, y === bomb return
+if x > 7 or < 0 or y > 7 or < 0 return  
+if x, y is a safe square  
+change id to safe  
+make it unclickable  
+check left side (y-1)  
+check right side (y+1)  
+check above (x-1) if x > 0  
+check below (x + 1)  
+check diagonals:  
+(x-)(y-)  
+(x-)(y+)  
+(x+)(y-)  
+(x+)(y+)  
