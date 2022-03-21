@@ -24,7 +24,7 @@ a revealed, bomb square is **some other** color
 bomb value is 1  
 empty square value is 0  
 
-//required variables that track the state of the game
+//required variables that track the state of the game  
 the board   
 a win variable - boolean  
 a lose variable - boolean  
@@ -78,6 +78,15 @@ get the index of the square
 if the square flagged has a bomb - tell the winning function? Or call the winning function to check if player has won  
 make a flagged square unclickable for left clicks only   
   
-
+//recursive function   
+given starting coordinate x (rows) and y (cols)  
+base cases to stop the function-  
+if x, y === bomb return  
+if x > 7 or < 0 or y > 7 or < 0 return  
+if x, y is a safe square
+change id to safe to reveal lighter blue color - match the data-x to x and data-y to y
+make it unclickable
+check neighboring squares to see if they're also safe
+for left and right - just +/- y coordinate 
 
 
