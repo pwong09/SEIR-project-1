@@ -220,18 +220,21 @@ function placeNumbers(){
         //over and over again
 function recursiveSquare(coordX, coordY) {
     //base case
-        if (coordX > 7) return;
-        if (coordX < 7 && board[coordX][coordY] === bomb) {
-            return
-        } else {
-            sq.id = 'safe'
-            sq.disabled = true;
-            safeSq++;
-            coordX = coordX + 1;
+        if (coordX > 7 || coordY > 7 || coordX < 0 || coordY < 0) return;
+        if (coordX < 7 && board[coordX][coordY] === bomb) return
+        squareEls.forEach(sq => {
+            let x = parseInt(sq.getAttribute('data-x'))
+            let y = parseInt(sq.getAttribute('data-y'))
+            if (coordX === x && coordY === y) {
+                sq.id = 'safe'
+                sq.disabled = true;
+                safeSq++;
+            }
+        });
             console.log('am I working?')
             console.log(coordX)
-        }
-        recursiveSquare((coordX),coordY);
+            recursiveSquare((coordX+1), coordY)
+        
 }
 
 
