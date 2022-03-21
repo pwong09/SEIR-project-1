@@ -90,7 +90,7 @@ function handleLeftClick(e){
         sq.id = 'bomb';
         lose = true;
     } else {
-        recursiveSquare(sqX, sqY);
+        recursiveSquares(sqX, sqY);
         checkWinner();
         console.log(safeSq)
     }
@@ -136,15 +136,12 @@ function placeBombs(max){
     for (let i = 0; i < boardX; i++) {
         randomArrayX[i] = Math.floor(Math.random() * boardX);
         randomArrayY[i] = Math.floor(Math.random() * boardX);
+        
+        board[randomArrayX[i]][randomArrayY[i]] = bomb;
+        numOfBombs++;
     }
-    randomArrayX.forEach(x => {
-        randomArrayY.forEach(y => {
-            if(numOfBombs < max && board[x][y] === safe) {
-                board[x][y] = bomb;
-                numOfBombs++;
-            }
-        });
-    });
+    console.log(randomArrayX)
+    console.log(randomArrayY)
     console.log(`I've placed ${numOfBombs} bombs muahahahah`)
     console.log(board);
     placeNumbers()
@@ -211,17 +208,19 @@ function placeNumbers(){
         }
     } //end of for loop
 }
-        //a recursive function ?
-        //check surrounding squares
-        //if safe, change id to 'safe'
-        //keep going until board[x][y] is a bomb
-        //check for sqX +/- 1
-        //check for sqY +/- 1
-        //over and over again
-function recursiveSquare(coordX, coordY) {
+
+function recursiveSquares(coordX, coordY) {
+    recursiveSquareX(coordX, coordY);
+    recursiveSquareY(coordX, coordY);
+}
+
+//this function goes all the way down 
+//how to limit to just 1-2 levels down?
+function recursiveSquareX(coordX, coordY) {
     //base case
         if (coordX > 7 || coordY > 7 || coordX < 0 || coordY < 0) return;
-        if (coordX < 7 && board[coordX][coordY] === bomb) return
+        if (board[coordX][coordY] === bomb) return;
+    //recursive case
         squareEls.forEach(sq => {
             let x = parseInt(sq.getAttribute('data-x'))
             let y = parseInt(sq.getAttribute('data-y'))
@@ -231,9 +230,25 @@ function recursiveSquare(coordX, coordY) {
                 safeSq++;
             }
         });
-            console.log('am I working?')
-            console.log(coordX)
-            recursiveSquare((coordX+1), coordY)
+        recursiveSquareX((coordX+1), coordY)
+        
+}
+//this function goes all the way across
+function recursiveSquareY(coordX, coordY) {
+    //base case
+        if (coordX > 7 || coordY > 7 || coordX < 0 || coordY < 0) return;
+        if (board[coordX][coordY] === bomb) return
+    //recursive case
+        squareEls.forEach(sq => {
+            let x = parseInt(sq.getAttribute('data-x'))
+            let y = parseInt(sq.getAttribute('data-y'))
+            if (coordX === x && coordY === y) {
+                sq.id = 'safe'
+                sq.disabled = true;
+                safeSq++;
+            }
+        });
+        recursiveSquareY(coordX, (coordY +1))
         
 }
 
