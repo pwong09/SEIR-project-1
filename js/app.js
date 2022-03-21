@@ -159,31 +159,30 @@ function placeNumbers(){
         let rightSide = i % boardX === .875;
         if (board[sqX][sqY] === safe) {
             //sq is safe
-            //the safe square on right hand side - IT WORKS
-            if (!rightSide && board[sqX][(sqY-1)] === bomb) {
+            //the safe square on right and/or left hand side - IT WORKS
+            if ((board[sqX][(sqY-1)] === bomb || board[sqX][(sqY+1)] === bomb) && !rightSide) {
                 bombCount++;
                 sq.innerText = `${bombCount}`;
-                console.log('bomb is to the left!')
+                console.log('bomb is to the left and/or right!')
             }
-            //the safe square is on left hand side - IT WORKS
-            if (board[sqX][(sqY+1)] === bomb){
+            // //the safe square is on left hand side - IT WORKS
+            // if (board[sqX][(sqY+1)] === bomb){
+            //     bombCount++;
+            //     sq.innerText = `${bombCount}`;
+            //     console.log('bomb is to the right!')
+            // }
+            //the safe square above and/or below the bomb - IT WORKS
+            if ((sqX > 0 && board[(sqX - 1)][sqY] === bomb) || (sqX < 7 && board[(sqX + 1)][sqY] === bomb)) {
                 bombCount++;
                 sq.innerText = `${bombCount}`;
-                console.log('bomb is to the right!')
-            }
-            //the safe square below the bomb - IT WORKS
-            if (sqX > 0 && board[(sqX - 1)][sqY] === bomb) {
-                bombCount++;
-                sq.innerText = `${bombCount}`;
-                console.log('bomb is above!')
-                console.log('bomb is to the right & above!')
+                console.log('bomb is above and/or below!')
             }
             // safe square above the bomb - IT WORKS
-            if (sqX < 7 && board[(sqX + 1)][sqY] === bomb) {
-                bombCount++;
-                sq.innerText = `${bombCount}`;
-                console.log('bomb is below!')
-            }
+            // if (sqX < 7 && board[(sqX + 1)][sqY] === bomb) {
+            //     bombCount++;
+            //     sq.innerText = `${bombCount}`;
+            //     console.log('bomb is below!')
+            // }
             // safe square diagonally below and to the right - IT WORKS
             if (!rightSide && sqX > 0 && board[(sqX - 1)][(sqY - 1)] === bomb) {
                 bombCount++;
@@ -214,9 +213,9 @@ function placeNumbers(){
 
 function checkNeighbors(coordX, coordY) {
         squareEls.forEach(sq => {
-            let x = parseInt(sq.getAttribute('data-x'))
-            let y = parseInt(sq.getAttribute('data-y'))
-            if (coordX === x && coordY === y) sq.id = 'safe';
+            let x = parseInt(sq.getAttribute('data-x'));
+            let y = parseInt(sq.getAttribute('data-y'));
+            if (coordX === x && coordY === y) sq.id = 'safe'; //center
             if (((coordX + 1) === x || (coordX - 1) === x) && coordY === y && board[x][y] === safe) sq.id = 'safe';
             if (((coordY + 1) === y || (coordY - 1) === y) && coordX === x && board[x][y] === safe) sq.id = 'safe';
             if (((coordX - 1) === x || (coordX + 1) === x) && ((coordY - 1) === y || (coordY + 1) === y) && board[x][y] === safe) sq.id = 'safe';
