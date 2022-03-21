@@ -78,30 +78,15 @@ get the index of the square
 if the square flagged has a bomb - tell the winning function? Or call the winning function to check if player has won  
 make a flagged square unclickable for left clicks only   
   
-//recursive function   
+//function to check neighbors   
 given starting coordinate x (rows) and y (cols)  
-base cases to stop the function-  
-if x, y === bomb return  
-if x > 7 or < 0 or y > 7 or < 0 return  
-if x, y is a safe square
 change id to safe to reveal lighter blue color - match the data-x to x and data-y to y
-make it unclickable
-check neighboring squares to see if they're also safe
-for left and right - just +/- y coordinate 
-
-//recursive function to fan out just neighboring squares - not the whole row or column  
-base case
-if x, y === bomb return
-if x > 7 or < 0 or y > 7 or < 0 return  
-if x, y is a safe square  
-change id to safe  
 make it unclickable  
-check left side (y-1)  
-check right side (y+1)  
-check above (x-1) if x > 0  
-check below (x + 1)  
-check diagonals:  
-(x-)(y-)  
-(x-)(y+)  
-(x+)(y-)  
-(x+)(y+)  
+check neighboring squares to see if they're also safe  
+for left and right: +/- y coordinate   
+up and down: +/- x coord  
+diagonals:  
+upper left: (-,-)  
+upper right: (-,+)  
+lower left: (+,-)  
+lower right: (+,+)  

@@ -217,75 +217,17 @@ function checkNeighbors(coordX, coordY) {
             let x = parseInt(sq.getAttribute('data-x'))
             let y = parseInt(sq.getAttribute('data-y'))
             if (coordX === x && coordY === y) sq.id = 'safe';
-            if ((coordX+1) === x && coordY === y && board[x][y] === safe) sq.id = 'safe';
+            if ((coordX + 1) === x && coordY === y && board[x][y] === safe) sq.id = 'safe';
+            if ((coordX - 1) === x && coordY === y && board[x][y] === safe) sq.id = 'safe';
             if ((coordY + 1) === y && coordX === x && board[x][y] === safe) sq.id = 'safe';
             if ((coordY - 1) === y && coordX === x && board[x][y] === safe) sq.id = 'safe';
-            if ((coordX - 1) === x && coordY === y && board[x][y] === safe) sq.id = 'safe';
-            if ((coordX -1) === x && (coordY - 1) === y && board[x][y] === safe) sq.id = 'safe';
-            if ((coordX +1) === x  && (coordY - 1) === y && board[x][y] === safe) sq.id = 'safe';
-            if ((coordX - 1) === x && (coordY +1) === y && board[x][y] === safe) sq.id = 'safe';
-            if ((coordX + 1) === x && (coordY + 1) === y && board[x][y] === safe) sq.id = 'safe';
+            if (((coordX - 1) === x || (coordX +1) === x) && ((coordY - 1) === y || (coordY + 1) === y) && board[x][y] === safe) sq.id = 'safe';
+            //if ((coordX + 1) === x  && ((coordY - 1) === y || (coordY+1) === y) && board[x][y] === safe) sq.id = 'safe';
+            //if ((coordX - 1) === x && (coordY + 1) === y && board[x][y] === safe) sq.id = 'safe';
+            //if ((coordX + 1) === x && (coordY + 1) === y && board[x][y] === safe) sq.id = 'safe';
             if (sq.id === safe) sq.disabled = true;
         });
-    //recursiveSquareXRight(coordX, coordY, 2)
-    //recursiveSquareYDown(coordX, coordY, 2)
-}
-
-//this function goes all the way down 
-//how to limit to just 1-2 levels down?
-// function recursiveSquareXRight(coordX, coordY, times) {
-//     //base cases
-//         if (coordX > 7 || coordY > 7 || coordX < 0 || coordY < 0) return;
-//         if (board[coordX][coordY] === bomb) return;
-//         if (times === 0) return;
-//     //recursive case
-//         squareEls.forEach(sq => {
-//             let x = parseInt(sq.getAttribute('data-x'))
-//             let y = parseInt(sq.getAttribute('data-y'))
-//             if (coordX === x && coordY === y) {
-//                 sq.id = 'safe'
-//                 sq.disabled = true;
-//             }
-            
-//         });
-//         recursiveSquareXRight((coordX+1), coordY, (times - 1))
-// }
-// function recursiveSquareXRight(coordX, coordY, times) {
-//     //base cases
-//         if (coordX > 7 || coordY > 7 || coordX < 0 || coordY < 0) return;
-//         if (board[coordX][coordY] === bomb) return;
-//         if (times === 0) return;
-//     //recursive case
-//         squareEls.forEach(sq => {
-//             let x = parseInt(sq.getAttribute('data-x'))
-//             let y = parseInt(sq.getAttribute('data-y'))
-//             if (coordX === x && coordY === y) {
-//                 sq.id = 'safe'
-//                 sq.disabled = true;
-//             }
-            
-//         });
-//         recursiveSquareX((coordX+1), coordY, (times - 1))
-        
-// }
-//this function goes all the way across
-// function recursiveSquareYDown(coordX, coordY, times) {
-//     //base cases
-//         if (coordX > 7 || coordY > 7 || coordX < 0 || coordY < 0) return;
-//         if (board[coordX][coordY] === bomb) return
-//         if (times === 0) return
-//     //recursive case
-//         squareEls.forEach(sq => {
-//             let x = parseInt(sq.getAttribute('data-x'))
-//             let y = parseInt(sq.getAttribute('data-y'))
-//             if (coordX === x && coordY === y) {
-//                 sq.id = 'safe'
-//                 sq.disabled = true;
-//             }
-//         });
-//         recursiveSquareYDown(coordX, (coordY + 1), (times - 1))
-        
-// }
+    }
 
 
 function checkWinner(){
