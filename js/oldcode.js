@@ -14,6 +14,13 @@ function placeNumbers(){
                 sq.innerText = `${bombCount}`;
                 console.log('bomb is to the left and/or right!')
             }
+            //doesn't work
+            //safe square is above and/or below 
+            // if (sqX > 0 && board[(sqX - 1)][sqY] === bomb || sqX < 7 && board[(sqX + 1)][sqY] === bomb) {
+            //     bombCount++;
+            //     sq.innerText = `${bombCount}`;
+            //     console.log('bomb is above and/or below!')
+            // }
             if ((sqX > 0 && board[(sqX - 1)][sqY] === bomb) || (sqX < 7 && board[(sqX + 1)][sqY] === bomb)) {
                 bombCount++;
                 sq.innerText = `${bombCount}`;
@@ -35,17 +42,22 @@ function placeNumbers(){
             //     sq.innerText = `${bombCount}`;
             //     console.log('bomb is to the right!')
             // }
-            //the safe square above and/or below the bomb - IT WORKS
             // safe square above the bomb - IT WORKS
             // if (sqX < 7 && board[(sqX + 1)][sqY] === bomb) {
             //     bombCount++;
             //     sq.innerText = `${bombCount}`;
             //     console.log('bomb is below!')
             // }
-            // safe square diagonally below and to the right - IT WORKS
-            
-            // safe sq diagonally below and to the left - IT WORKS
-            
+            // if (!rightSide && sqX > 0 && board[(sqX - 1)][(sqY - 1)] === bomb) {
+            //     bombCount++;
+            //     sq.innerText = `${bombCount}`;
+            //     console.log('bomb is to the left & above!')
+            // }
+            // if (sqX > 0 && board[(sqX - 1)][(sqY + 1)] === bomb) {
+            //     bombCount++;
+            //     sq.innerText = `${bombCount}`;
+            //     console.log('bomb on upper right hand corner')
+            // }
             // safe sq diagonally above and to the left
             // if (sqX < 7 && board[(sqX + 1)][(sqY - 1)] === bomb) {
             //     bombCount++;
