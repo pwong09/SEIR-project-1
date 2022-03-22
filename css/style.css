@@ -5,6 +5,7 @@
 }
 body {
     height: 100vh;
+    font-family: Helvetica, sans-serif;
 }
 main {
     background-color: white;
@@ -28,12 +29,11 @@ main {
     font-size: 0px;
 }
 .msg {
-    display: flex;
+    display: none;
     flex-direction: column;
     align-items: center;
     position: absolute;
     top: 300px;
-    visibility: hidden;
 }
 .msg div {
     width: 700px;
@@ -42,9 +42,13 @@ main {
     background-color: white;
     margin-bottom: 80px;
     font-size: 72px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.replay {
+.replay-1, .replay-2 {
     cursor: pointer;
     width: 120px;
     height: 40px;

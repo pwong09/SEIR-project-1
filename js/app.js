@@ -1,7 +1,6 @@
 /*----constant----*/
 const bomb = 1;
-const safe = 0;
-const boardSize = 64;
+const safe = 0;;
 
 /*----state----*/
 let win;
@@ -9,73 +8,99 @@ let lose;
 let board;
 let flags;
 let safeSq;
-let boardX;
-let maxBombs;
+let boardX = 8;
+let maxBombs = 8;
+let boardSize = 64;
 
+/*Game Start*/
 /*----cached elements----*/
 const boardEl = document.querySelector('.board');
+//const boardSizeEl = document.querySelector('.board-sizes')
+//boardSizeEl.addEventListener('click', gameStart)
 
-/*making the board's squares*/
-let x = 0;
-let y = 0;
-for (let i = 0; i < (boardSize); i++) {
-    const squareEl = document.createElement('button');
-    squareEl.className = "square";
-    squareEl.id = "hidden";
-    squareEl.setAttribute('data-x', `${x}`);
-    squareEl.setAttribute('data-y', `${y}`);
-    boardEl.appendChild(squareEl);
-    if (y < 7) {
-        y++;
-    } else {
-        y = 0;
-        x++;
+
+// function gameStart(e){
+//     if (e.target.tagName === 'DIV') return
+//     if (e.target.tagName === 'BUTTON') {
+//         if (e.target.innerText === 'Easy') {
+//             boardSize = 64;
+//             boardX = 8;
+//             maxBombs = 8;
+//         } else if (e.target.innerText === 'Medium') {
+//             boardSize = 100;
+//             boardX = 10;
+//             maxBombs = 10;
+//         } else if (e.target.innerText === 'Hard') {
+//             boardSize = 400;
+//             boardX = 20;
+//             maxBombs = 20;
+//         }
+//     }
+    /*making the board's squares*/
+    let x = 0;
+    let y = 0;
+    for (let i = 0; i < (boardSize); i++) {
+        const squareEl = document.createElement('button');
+        squareEl.className = "square";
+        squareEl.id = "hidden";
+        squareEl.setAttribute('data-x', `${x}`);
+        squareEl.setAttribute('data-y', `${y}`);
+        boardEl.appendChild(squareEl);
+        if (y < (boardX - 1)) {
+            y++;
+        } else {
+            y = 0;
+            x++;
     }
 }
+// };
+
 
 //const squareEl = document.querySelector('.square');
 const squareEls = document.querySelectorAll('.square');
-const replayBtn = document.querySelector('.replay');
+const replayBtn1 = document.querySelector('.replay-1');
+const replayBtn2 = document.querySelector('.replay-2')
 const msgEl = document.querySelector('.msg');
 const msgBannerEl = document.querySelector('.msg div')
 
 /*----Event Listeners----*/
+
 boardEl.addEventListener('click', handleLeftClick);
-replayBtn.addEventListener('click', init);
+replayBtn1.addEventListener('click', init);
+replayBtn2.addEventListener('click', init);
 boardEl.addEventListener('contextmenu', handleRightClick);
 init()
 
 /*----game play functions----*/
 function init(e){
+    msgEl.style.display = 'none';
+    squareEls.forEach(sq => {
+        sq.innerText = '';
+        sq.id = 'hidden'
+        sq.disabled = false;
+    });
     win = false;
     lose = false;
     flags = 0;
     safeSq = 0;
-    maxBombs = 8;
-    boardX = maxBombs;
     makeBoard();
     placeBombs(maxBombs);
-    squareEls.forEach(sq => {
-        sq.id = 'hidden'
-        sq.disabled = false;
-    });
+    boardEl.addEventListener('click', handleLeftClick);
     render();
 }
 
 function render(){
         if (lose) {
+            msgEl.style.display = 'flex';
             msgBannerEl.innerText = 'You Lose!';
             boardEl.removeEventListener('click', handleLeftClick);
-            msgEl.style.visiblity = 'visible';
             console.log('you lose!')
         }
         if (win) {
+            msgEl.style.display = 'flex';
             msgBannerEl.innerText = 'Winner winner chicken dinner!'
-            if (board[sqX][sqY] === bomb) {
-                sq.id = 'bomb';
-            }
             boardEl.removeEventListener('click', handleLeftClick);
-            msgEl.style.visibility = 'visible';
+            console.log('you win!')
         }
 }
 
@@ -126,6 +151,7 @@ function makeBoard(){
             row.push(safe);
         }
     })
+    console.log(`the board: ${board}`)
 }
 function placeBombs(max){
     let numOfBombs = 0;
