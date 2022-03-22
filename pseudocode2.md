@@ -7,7 +7,7 @@ html setup
 
 css
 - style 3 buttons to match other buttons
-- add hover and active states to buttons
+- add hover states to buttons
 
 //constant variables
 
