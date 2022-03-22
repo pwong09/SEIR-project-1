@@ -18,16 +18,14 @@ let lose;
 let board;
 let flags;
 let safeSq;
-let boardSize = 64;
-let boardX = 8;
-let maxBombs = 8;
+let boardSize;
+let boardX;
+let maxBombs;
 
 
 /*----cached elements----*/
 const boardEl = document.querySelector('.board');
 const boardSizeEl = document.querySelector('.board-sizes')
-
-//const squareEl = document.querySelector('.square');
 const replayBtn1 = document.querySelector('.replay-1');
 const replayBtn2 = document.querySelector('.replay-2')
 const msgEl = document.querySelector('.msg');
@@ -48,26 +46,26 @@ function gameStart(e){
             boardSize = 64;
             boardX = 8;
             maxBombs = 8;
-            boardEl.style.gridTemplateColumns = '1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr';
-            boardEl.style.gridTemplateRows =  '1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr';
+            boardEl.style.gridTemplateColumns = `repeat(${boardX}, 1fr)`;
+            boardEl.style.gridTemplateRows =  `repeat(${boardX}, 1fr)`;
 
         } else if (e.target.innerText === 'Medium') {
             boardSize = 100;
             boardX = 10;
             maxBombs = 10;
-            boardEl.style.gridTemplateColumns = '1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr';
-            boardEl.style.gridTemplateRows =  '1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr';
+            boardEl.style.gridTemplateColumns = `repeat(${boardX}, 1fr)`;
+            boardEl.style.gridTemplateRows =  `repeat(${boardX}, 1fr)`;
 
         } else if (e.target.innerText === 'Hard') {
-            boardSize = 225;
-            boardX = 15;
+            boardSize = 144;
+            boardX = 12;
             maxBombs = 20;
-            boardEl.style.gridTemplateColumns = '1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr';
-            boardEl.style.gridTemplateRows = '1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr';
+            boardEl.style.gridTemplateColumns = `repeat(${boardX}, 1fr)`;
+            boardEl.style.gridTemplateRows = `repeat(${boardX}, 1fr)`;
 
         }
     }
-    /*making the board's squares*/
+    /*making the board's squares and coordinates*/
     let x = 0;
     let y = 0;
     for (let i = 0; i < (boardSize); i++) {
@@ -88,7 +86,6 @@ function gameStart(e){
 }
     makeBoard();
     placeBombs(maxBombs);
-    console.log(`max bombs is ${maxBombs}`);
 }
 
 function init(e){
@@ -112,12 +109,16 @@ function render(){
         if (lose) {
             msgEl.style.display = 'flex';
             msgBannerEl.innerText = 'You Lose!';
+            msgBannerEl.style.width = `${boardX * 35}px`;
+            msgBannerEl.style.height = `${boardX * 10}px`;
             boardEl.removeEventListener('click', handleLeftClick);
             console.log('you lose!')
         }
         if (win) {
             msgEl.style.display = 'flex';
             msgBannerEl.innerText = 'Winner winner chicken dinner!'
+            msgBannerEl.style.width = `${boardX * 35}px`;
+            msgBannerEl.style.height = `${boardX * 10}px`;
             boardEl.removeEventListener('click', handleLeftClick);
             console.log('you win!')
         }
@@ -160,6 +161,11 @@ render();
 }
 
 /*----helper functions----*/
+function checkWinner(){
+    if (flags === maxBombs || safeSq === (boardSize - maxBombs)) {
+        win = true;
+    }
+}
 function makeBoard(){
     board = [];
     for (let i = 0; i < boardX; i++){
@@ -189,12 +195,10 @@ function placeBombs(){
         board[randomArrayX[i]][randomArrayY[i]] = bomb;
         numOfBombs++;
     }
-    console.log(randomArrayX)
-    console.log(randomArrayY)
-    console.log(`I've placed ${numOfBombs} bombs muahahahah`)
     console.log(board);
     placeNumbers();
     maxBombs = numOfBombs;
+    console.log(`new max bombs is ${maxBombs}`)
 }
 function placeNumbers(){
     const squareEls = document.querySelectorAll('.square');
@@ -213,46 +217,54 @@ function placeNumbers(){
             if (board[sqX][(sqY-1)] === bomb && !leftSide) {
                 bombCount++;
                 sq.innerText = `${bombCount}`;
+                sq.style.color = `${colors[bombCount]}`;
                 console.log('bomb is to the left!')
             }
             //safe square is on left side
             if (!rightSide && board[sqX][(sqY+1)] === bomb){
                 bombCount++;
                 sq.innerText = `${bombCount}`;
+                sq.style.color = `${colors[bombCount]}`;
                 console.log('bomb is to the right!')
             }
             //safe square is above
             if ((sqX > 0 && board[(sqX - 1)][sqY] === bomb)) {
                 bombCount++;
                 sq.innerText = `${bombCount}`;
+                sq.style.color = `${colors[bombCount]}`;
                 console.log('bomb is below!')
             }
             //safe square is below
             if ((sqX < lastRow && board[(sqX + 1)][sqY] === bomb)) {
                 bombCount++;
                 sq.innerText = `${bombCount}`;
+                sq.style.color = `${colors[bombCount]}`;
                 console.log('bomb is above!')
             }
             //safe square is diagonally above and/or below
             if (!rightSide && sqX > 0 && board[(sqX - 1)][(sqY - 1)] === bomb) {
                 bombCount++;
                 sq.innerText = `${bombCount}`;
+                sq.style.color = `${colors[bombCount]}`;
                 console.log('bomb is to the left & above!')
             }
             if (sqX > 0 && board[(sqX - 1)][(sqY + 1)] === bomb) {
                 bombCount++;
                 sq.innerText = `${bombCount}`;
+                sq.style.color = `${colors[bombCount]}`;
                 console.log('bomb on upper right hand corner')
             }
             if (sqX < lastRow && board[(sqX + 1)][(sqY - 1)] === bomb) {
                 bombCount++;
                 sq.innerText = `${bombCount}`;
+                sq.style.color = `${colors[bombCount]}`;
                 console.log('bomb is to the right & below!')
             }
             // safe sq diagonally above and to the right
             if (sqX < lastRow && board[(sqX + 1)][(sqY + 1)] === bomb) {
                 bombCount++;
                 sq.innerText = `${bombCount}`;
+                sq.style.color = `${colors[bombCount]}`;
                 console.log('bomb is to the left & below!')
             }
         }
@@ -272,9 +284,3 @@ function checkNeighbors(coordX, coordY) {
         });
     }
 
-
-function checkWinner(){
-    if (flags === maxBombs || safeSq === (boardSize - maxBombs)) {
-        win = true;
-    }
-}

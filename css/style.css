@@ -1,3 +1,6 @@
+* {
+    box-sizing: border-box;
+}
 :root {
     --empty: #b6cdf0;
     --bomb: #F0D90A;
@@ -29,19 +32,17 @@ main {
     flex-direction: column;
     align-items: center;
     position: absolute;
-    top: 300px;
+    top: 25%;
 }
 .msg div {
-    width: 700px;
-    height: 200px;
     border: 1px solid black;
     background-color: white;
-    margin-bottom: 80px;
-    font-size: 72px;
+    font-size: 23px;
     text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 20px;
 }
 .replay-1, .replay-2, .board-size {
     cursor: pointer;
