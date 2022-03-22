@@ -1,4 +1,4 @@
-#minesweeper pseudocode
+# PW minesweeper pseudocode
 
 html setup
 - game title (WIP): Welcome to Pearl's minesweeper!
@@ -16,11 +16,12 @@ css setup
 - losing message banner
 - play again button 1
 - play again button 2
+- a hidden square is __some__ color  
+- a safe square is __another__ color  
+- a revealed, bomb square is **some other** color 
 
 //required constants  
-a hidden square is __some__ color  
-a safe square is __another__ color  
-a revealed, bomb square is **some other** color  
+object of numbers and corresponding colors for numbered squares
 bomb value is 1  
 empty square value is 0  
 
@@ -28,6 +29,9 @@ empty square value is 0
 the board   
 a win variable - boolean  
 a lose variable - boolean  
+number of flags used  
+safe squares revealed  
+
 
 //store elements on the page that will be accessed more than once  
 - 64 squares - make in JS?
