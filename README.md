@@ -1,19 +1,25 @@
 # SEIR-project-1
-project 1 browser game
+a browser game
 
-☐ Minesweeper - a single player game to reveal the entire board without left-clicking on any bombs. Right-click to mark where a potential bomb is. Bombs' positions are indicated by the numbers (1, 2, 3, 4, etc.) on the board that will show how many bombs are adjacent to that particular square. If a square is empty, then that means the square has no adjacent squares containing a bomb. 
+# Pearl's Minesweeper
 
-☐ Screenshot(s): Images of your actual game.
+### Gameplay Screenshots
 
-☐ JavaScript, HTML, CSS
+![minesweeper main screen](./screenshots/main-screen.png "basic minesweeper board")
+![gameplay](./screenshots/gameplay.png "mid-game")
+![win message](./screenshots/win.png "win message")
+![lose message](./screenshots/lose.png "lose message")
 
-☐ Getting Started: In this section include the link to your deployed game and any instructions you deem important.
+### Technologies used:
+- HTML
+- CSS
+- JavaScript
 
-☐ Next Steps: Planned future enhancements (icebox items).
+### Links
+[Minesweeper](https://pwong09.github.io/SEIR-project-1/)  
+[Original Wireframe](https://www.figma.com/file/VjNbEEBTZESgVrJ7cGKZr1/Untitled?node-id=0%3A1)  
 
-Step 1: 
-
-☐ A wireframe of your "main" game screen. 
-[wireframe](https://www.figma.com/file/VjNbEEBTZESgVrJ7cGKZr1/Untitled?node-id=0%3A1)
-
-☐ Pseudocode for the overall game play.
+### Future Enhancements
+- give players multiple board size options
+- add sound effects for bomb reveal
+- add animation for multiple safe square reveals
