@@ -90,3 +90,55 @@ function checkNeighbors(coordX, coordY) {
         if (sq.id === safe) sq.disabled = true;
     });
 }
+
+if (board[sqX][sqY] === safe) {
+    if (board[sqX][(sqY-1)] === bomb && !leftSide) {
+        bombCount++;
+        sq.innerText = `${bombCount}`;
+        sq.style.color = `${colors[bombCount]}`;
+        // console.log('bomb is to the left!')
+    }
+    if (!rightSide && board[sqX][(sqY+1)] === bomb){
+        bombCount++;
+        sq.innerText = `${bombCount}`;
+        sq.style.color = `${colors[bombCount]}`;
+        // console.log('bomb is to the right!')
+    }
+    if ((sqX > 0 && board[(sqX - 1)][sqY] === bomb)) {
+        bombCount++;
+        sq.innerText = `${bombCount}`;
+        sq.style.color = `${colors[bombCount]}`;
+        // console.log('bomb is below!')
+    }
+    if ((sqX < lastRow && board[(sqX + 1)][sqY] === bomb)) {
+        bombCount++;
+        sq.innerText = `${bombCount}`;
+        sq.style.color = `${colors[bombCount]}`;
+        // console.log('bomb is above!')
+    }
+    if (!rightSide && sqX > 0 && board[(sqX - 1)][(sqY - 1)] === bomb) {
+        bombCount++;
+        sq.innerText = `${bombCount}`;
+        sq.style.color = `${colors[bombCount]}`;
+        // console.log('bomb is to the left & above!')
+    }
+    if (sqX > 0 && board[(sqX - 1)][(sqY + 1)] === bomb) {
+        bombCount++;
+        sq.innerText = `${bombCount}`;
+        sq.style.color = `${colors[bombCount]}`;
+        // console.log('bomb on upper right hand corner')
+    }
+    if (sqX < lastRow && board[(sqX + 1)][(sqY - 1)] === bomb) {
+        bombCount++;
+        sq.innerText = `${bombCount}`;
+        sq.style.color = `${colors[bombCount]}`;
+        // console.log('bomb is to the right & below!')
+    }
+    if (sqX < lastRow && board[(sqX + 1)][(sqY + 1)] === bomb) {
+        bombCount++;
+        sq.innerText = `${bombCount}`;
+        sq.style.color = `${colors[bombCount]}`;
+        // console.log('bomb is to the left & below!')
+    }
+}
+} //end of for loop

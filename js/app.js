@@ -17,9 +17,9 @@ let win;
 let lose;
 let board;
 let flags;
-let safeSq;
 let boardSize;
 let boardX;
+let boardY;
 let maxBombs;
 
 
@@ -32,60 +32,41 @@ const msgEl = document.querySelector('.msg');
 const msgBannerEl = document.querySelector('.msg div')
 
 /*----Event Listeners----*/
-boardSizeEl.addEventListener('click', gameStart)
+boardSizeEl.addEventListener('click', changeBoardSize)
 boardEl.addEventListener('click', handleLeftClick);
 replayBtn1.addEventListener('click', init);
 replayBtn2.addEventListener('click', init);
 boardEl.addEventListener('contextmenu', handleRightClick);
 
 /*----game play functions----*/
-function gameStart(e){
+function changeBoardSize(e){
     if (e.target.tagName === 'DIV') return
     if (e.target.className === 'board-size') {
         if (e.target.innerText === 'Easy') {
-            boardSize = 64;
             boardX = 8;
-            maxBombs = 8;
+            boardY = 8;
+            boardSize = boardX * boardY;
             boardEl.style.gridTemplateColumns = `repeat(${boardX}, 1fr)`;
-            boardEl.style.gridTemplateRows =  `repeat(${boardX}, 1fr)`;
+            boardEl.style.gridTemplateRows =  `repeat(${boardY}, 1fr)`;
 
         } else if (e.target.innerText === 'Medium') {
-            boardSize = 100;
             boardX = 10;
-            maxBombs = 10;
+            boardY = 10;
+            boardSize = boardX * boardY;
             boardEl.style.gridTemplateColumns = `repeat(${boardX}, 1fr)`;
-            boardEl.style.gridTemplateRows =  `repeat(${boardX}, 1fr)`;
+            boardEl.style.gridTemplateRows =  `repeat(${boardY}, 1fr)`;
 
         } else if (e.target.innerText === 'Hard') {
-            boardSize = 144;
             boardX = 12;
-            maxBombs = 20;
+            boardY = 12;
+            boardSize = boardX * boardY;
             boardEl.style.gridTemplateColumns = `repeat(${boardX}, 1fr)`;
-            boardEl.style.gridTemplateRows = `repeat(${boardX}, 1fr)`;
+            boardEl.style.gridTemplateRows = `repeat(${boardY}, 1fr)`;
 
         }
     }
-    /*making the board's squares and coordinates*/
-    let x = 0;
-    let y = 0;
-    for (let i = 0; i < (boardSize); i++) {
-        const squareEl = document.createElement('button');
-        squareEl.className = "square";
-        squareEl.id = "hidden";
-        squareEl.setAttribute('data-x', `${x}`);
-        squareEl.setAttribute('data-y', `${y}`);
-        squareEl.style.width = `${boardX/2 * 10}px`;
-        squareEl.style.height = `${boardX/2 * 10}px`;
-        boardEl.appendChild(squareEl);
-        if (y < (boardX - 1)) {
-            y++;
-        } else {
-            y = 0;
-            x++;
-    }
-}
-    makeBoard();
-    placeBombs(maxBombs);
+makeBoard();
+init();
 }
 
 function init(e){
@@ -99,13 +80,14 @@ function init(e){
     win = false;
     lose = false;
     flags = 0;
-    safeSq = 0;
-    placeBombs(maxBombs);
+    maxBombs = placeBombs();
+    console.log(`number of bombs is ${maxBombs}`)
     boardEl.addEventListener('click', handleLeftClick);
     render();
 }
 
 function render(){
+    checkWinner();
         if (lose) {
             msgEl.style.display = 'flex';
             msgBannerEl.innerText = 'You Lose!';
@@ -134,8 +116,6 @@ function handleLeftClick(e){
         lose = true;
     } else {
         checkNeighbors(sqX, sqY);
-        checkWinner();
-        console.log(`safe squares revealed: ${safeSq}`)
     }
 render();
 }
@@ -146,25 +126,26 @@ function handleRightClick(e){
     let sqY = sq.getAttribute('data-y');
     if (sq.tagName === 'SECTION') return;
     if (sq.id === 'safe') return;
-    if (sq.id === 'hidden' ){
+    if (sq.id === 'hidden'){
         sq.id = "flag";
         sq.disabled = true;
     } else {
         sq.id = 'hidden';
         sq.disabled = false;
+        flags--;
     }
-    if (board[sqX][sqY] === bomb) {
-        flags++
-        checkWinner();
-    }
+    if (sq.id === 'flag' && board[sqX][sqY] === bomb) flags++;
 render();
 }
 
 /*----helper functions----*/
 function checkWinner(){
-    if (flags === maxBombs || safeSq === (boardSize - maxBombs)) {
-        win = true;
-    }
+    const squareEls = document.querySelectorAll('.square');
+    squareEls.forEach(sq => {
+        let sqX = parseInt(sq.getAttribute('data-x'));
+        let sqY = parseInt(sq.getAttribute('data-y'));
+        if (sq.id === 'flag' && board[sqX][sqY] === bomb && flags === maxBombs) win = true;
+    });
 }
 function makeBoard(){
     board = [];
@@ -175,31 +156,63 @@ function makeBoard(){
         for (let i = 0; i < boardX; i++){
             row.push(safe);
         }
-    })
-    console.log(board);
+    });
+    /*making the board's squares and coordinates*/
+    if (boardEl.childElementCount === 0 || boardEl.childElementCount !== boardSize) {
+    while (boardEl.firstChild) {
+            boardEl.removeChild(boardEl.firstChild);
+    }
+    let x = 0;
+    let y = 0;
+    for (let i = 0; i < boardSize; i++) {
+        const squareEl = document.createElement('button');
+        squareEl.className = "square";
+        squareEl.id = "hidden";
+        squareEl.setAttribute('data-x', `${x}`);
+        squareEl.setAttribute('data-y', `${y}`);
+        squareEl.style.width = `${boardX/3 * 10}px`;
+        squareEl.style.height = `${boardX/3 * 10}px`;
+        boardEl.appendChild(squareEl);
+        if (y < (boardX - 1)) {
+            y++;
+        } else {
+            y = 0;
+            x++;
+        }
+    }
+}
 }
 function placeBombs(){
+    let numOfBombs = 0;
     for(let i = 0; i < boardX; i++) {
         for (let j = 0; j < boardX; j++) {
             board[i][j] = safe;
         }
     }
-    console.log(board)
-    let numOfBombs = 0;
-    const randomArrayX = [];
-    const randomArrayY = [];
+    //should run 8 times for a small board
     for (let i = 0; i < boardX; i++) {
-        randomArrayX[i] = Math.floor(Math.random() * boardX);
-        randomArrayY[i] = Math.floor(Math.random() * boardX);
-        
-        board[randomArrayX[i]][randomArrayY[i]] = bomb;
-        numOfBombs++;
+        let x = randomIndex()
+        let y = randomIndex()
+        if (board[x][y] === safe) {
+            //will only add a bomb if the initial coordinates value is 0
+            board[x][y] = bomb;
+            //will only add if we place a bomb?
+            numOfBombs++;
+            console.log(numOfBombs)
+            console.log('if statement hitting')
+        }
     }
-    console.log(board);
+    //but sometimes we only get 7 bombs, why???
+    console.log(board)
     placeNumbers();
-    maxBombs = numOfBombs;
-    console.log(`new max bombs is ${maxBombs}`)
+    return numOfBombs;
 }
+
+function randomIndex(){
+    let index = Math.floor(Math.random() * boardX);
+    return index;
+}
+
 function placeNumbers(){
     const squareEls = document.querySelectorAll('.square');
     for (let i = 0; i < boardSize; i++) {
@@ -210,77 +223,44 @@ function placeNumbers(){
         let leftSide = i % boardX === 0;
         let rightSide = i % boardX === .875;
         let lastRow = boardX - 1
-        console.log(lastRow)
         if (board[sqX][sqY] === safe) {
-            //sq is safe
-            // the safe square on right side
-            if (board[sqX][(sqY-1)] === bomb && !leftSide) {
-                bombCount++;
+            if (board[sqX][(sqY-1)] === bomb && !leftSide) bombCount++;
+                // console.log('bomb is to the left!')
+            if (!rightSide && board[sqX][(sqY+1)] === bomb) bombCount++;
+                // console.log('bomb is to the right!')
+            if ((sqX > 0 && board[(sqX - 1)][sqY] === bomb)) bombCount++;
+                // console.log('bomb is below!')
+            if ((sqX < lastRow && board[(sqX + 1)][sqY] === bomb)) bombCount++;
+                // console.log('bomb is above!')
+            if (!rightSide && sqX > 0 && board[(sqX - 1)][(sqY - 1)] === bomb) bombCount++;
+                // console.log('bomb is to the left & above!')
+            if (sqX > 0 && board[(sqX - 1)][(sqY + 1)] === bomb) bombCount++;
+                // console.log('bomb on upper right hand corner')
+            if (sqX < lastRow && board[(sqX + 1)][(sqY - 1)] === bomb) bombCount++;
+                // console.log('bomb is to the right & below!')
+            if (sqX < lastRow && board[(sqX + 1)][(sqY + 1)] === bomb) bombCount++;
+                // console.log('bomb is to the left & below!')
+            if (bombCount > 0) {
                 sq.innerText = `${bombCount}`;
                 sq.style.color = `${colors[bombCount]}`;
-                console.log('bomb is to the left!')
-            }
-            //safe square is on left side
-            if (!rightSide && board[sqX][(sqY+1)] === bomb){
-                bombCount++;
-                sq.innerText = `${bombCount}`;
-                sq.style.color = `${colors[bombCount]}`;
-                console.log('bomb is to the right!')
-            }
-            //safe square is above
-            if ((sqX > 0 && board[(sqX - 1)][sqY] === bomb)) {
-                bombCount++;
-                sq.innerText = `${bombCount}`;
-                sq.style.color = `${colors[bombCount]}`;
-                console.log('bomb is below!')
-            }
-            //safe square is below
-            if ((sqX < lastRow && board[(sqX + 1)][sqY] === bomb)) {
-                bombCount++;
-                sq.innerText = `${bombCount}`;
-                sq.style.color = `${colors[bombCount]}`;
-                console.log('bomb is above!')
-            }
-            //safe square is diagonally above and/or below
-            if (!rightSide && sqX > 0 && board[(sqX - 1)][(sqY - 1)] === bomb) {
-                bombCount++;
-                sq.innerText = `${bombCount}`;
-                sq.style.color = `${colors[bombCount]}`;
-                console.log('bomb is to the left & above!')
-            }
-            if (sqX > 0 && board[(sqX - 1)][(sqY + 1)] === bomb) {
-                bombCount++;
-                sq.innerText = `${bombCount}`;
-                sq.style.color = `${colors[bombCount]}`;
-                console.log('bomb on upper right hand corner')
-            }
-            if (sqX < lastRow && board[(sqX + 1)][(sqY - 1)] === bomb) {
-                bombCount++;
-                sq.innerText = `${bombCount}`;
-                sq.style.color = `${colors[bombCount]}`;
-                console.log('bomb is to the right & below!')
-            }
-            // safe sq diagonally above and to the right
-            if (sqX < lastRow && board[(sqX + 1)][(sqY + 1)] === bomb) {
-                bombCount++;
-                sq.innerText = `${bombCount}`;
-                sq.style.color = `${colors[bombCount]}`;
-                console.log('bomb is to the left & below!')
             }
         }
     } //end of for loop
+
+    
 }
 
 function checkNeighbors(coordX, coordY) {
     const squareEls = document.querySelectorAll('.square');
-        squareEls.forEach(sq => {
-            let x = parseInt(sq.getAttribute('data-x'));
-            let y = parseInt(sq.getAttribute('data-y'));
-            if (coordX === x && coordY === y) sq.id = 'safe'; //center
-            if (((coordX + 1) === x || (coordX - 1) === x) && coordY === y && board[x][y] === safe) sq.id = 'safe';
-            if (((coordY + 1) === y || (coordY - 1) === y) && coordX === x && board[x][y] === safe) sq.id = 'safe';
-            if (((coordX - 1) === x || (coordX + 1) === x) && ((coordY - 1) === y || (coordY + 1) === y) && board[x][y] === safe) sq.id = 'safe';
-            if (sq.id === safe) sq.disabled = true;
+    squareEls.forEach(sq => {
+        let count = 0;
+        let x = parseInt(sq.getAttribute('data-x'));
+        let y = parseInt(sq.getAttribute('data-y'));
+        if (coordX === x && coordY === y) sq.id = 'safe'; //center
+        if (((coordX + 1) === x || (coordX - 1) === x) && coordY === y && board[x][y] === safe) sq.id = 'safe'; 
+        if (((coordY + 1) === y || (coordY - 1) === y) && coordX === x && board[x][y] === safe) sq.id = 'safe'; 
+        if (((coordX - 1) === x || (coordX + 1) === x) && ((coordY - 1) === y || (coordY + 1) === y) && board[x][y] === safe) sq.id = 'safe';
+        if (sq.id === 'safe') sq.disabled = true;
         });
-    }
+}
 
