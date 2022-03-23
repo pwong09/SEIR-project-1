@@ -42,15 +42,15 @@ function changeBoardSize(e){
     if (e.target.tagName === 'DIV') return
     if (e.target.className === 'board-size') {
         if (e.target.innerText === 'Easy') {
-            boardX = 8;
-            boardY = 8;
+            boardX = 10;
+            boardY = 10;
             boardSize = boardX * boardY;
             boardEl.style.gridTemplateColumns = `repeat(${boardX}, 1fr)`;
             boardEl.style.gridTemplateRows =  `repeat(${boardY}, 1fr)`;
 
         } else if (e.target.innerText === 'Medium') {
-            boardX = 10;
-            boardY = 10;
+            boardX = 13;
+            boardY = 13;
             boardSize = boardX * boardY;
             boardEl.style.gridTemplateColumns = `repeat(${boardX}, 1fr)`;
             boardEl.style.gridTemplateRows =  `repeat(${boardY}, 1fr)`;
@@ -167,8 +167,8 @@ function makeBoard(){
         squareEl.id = "hidden";
         squareEl.setAttribute('data-x', `${x}`);
         squareEl.setAttribute('data-y', `${y}`);
-        squareEl.style.width = `${boardX/3 * 10}px`;
-        squareEl.style.height = `${boardX/3 * 10}px`;
+        squareEl.style.width = `${boardX * 2}px`;
+        squareEl.style.height = `${boardX * 2}px`;
         boardEl.appendChild(squareEl);
         if (y < (boardX - 1)) {
             y++;
@@ -186,7 +186,7 @@ function placeBombs(){
             board[i][j] = safe;
         }
     }
-    if (boardX < 10) {
+    if (boardX < 11) {
         for (let i = 0; i < (boardX); i++) {
             let x = randomIndex()
             let y = randomIndex()
