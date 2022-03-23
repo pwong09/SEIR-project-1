@@ -9,27 +9,25 @@
     <script defer src="./js/app.js"></script>
 </head>
 <body>
+    <h1>Welcome to Pearl's Minesweeper</h1>
+    <div class="board-sizes">
+        <button class="board-size">Easy</button>
+        <button class="board-size">Medium</button>
+        <button class="board-size">Hard</button>
+    </div>
     <main>
-        <h1>Welcome to Pearl's Minesweeper</h1>
-        <div class="board-sizes">
-            <button class="board-size">Easy</button>
-            <button class="board-size">Medium</button>
-            <button class="board-size">Hard</button>
-        </div>
         <section class="board"></section>
         <div class="msg">
-            <div>
-            </div>
-            <button class="replay-1">Restart</button>
         </div>
-        <button class="replay-2">Restart</button>
+    </main>
+    <button class="replay">Restart</button>
         <div class="directions">
             <h3>How to Play</h3>
             <p>Those mines aren't going to sweep themselves!</p>
-            <p>Left-click on a square to reveal either a safe, empty square or EGAD a bomb!</p>
+            <p>Choose level: Easy, Medium, or Hard.</p>
+            <p>Left-click on a square to reveal either a safe square or EGAD a bomb!!</p>
             <p>Right-click on a square to place a flag on it if you think it holds a bomb.</p>
-            <p>You win when you have flagged all the bombs correctly.</p>
+            <p>You win if you have flagged all the bombs correctly.</p>
         </div>
-    </main>
 </body>
 </html>

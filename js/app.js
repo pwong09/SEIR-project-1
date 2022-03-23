@@ -2,14 +2,14 @@
 const bomb = 1;
 const safe = 0;
 const colors = {
-    1: 'purple',
-    2: 'blue',
-    3: 'green',
-    4: 'yellow',
-    5: 'orange',
-    6: 'red',
-    7: 'brown',
-    8: 'black'
+    1: '#790AF0',
+    2: '#0A30F0',
+    3: '#229C10',
+    4: '#A38A00',
+    5: '#F09C0A',
+    6: '#F0300A',
+    7: '#4A1605',
+    8: '#000000'
 };
 
 /*----state----*/
@@ -25,18 +25,15 @@ let maxBombs;
 /*----cached elements----*/
 const boardEl = document.querySelector('.board');
 const boardSizeEl = document.querySelector('.board-sizes')
-const replayBtn1 = document.querySelector('.replay-1');
-const replayBtn2 = document.querySelector('.replay-2')
+const replayBtn = document.querySelector('.replay');
 const msgEl = document.querySelector('.msg');
-const msgBannerEl = document.querySelector('.msg div')
 
 /*----Event Listeners----*/
 boardSizeEl.addEventListener('click', changeBoardSize)
-replayBtn1.addEventListener('click', init);
-replayBtn2.addEventListener('click', init);
+replayBtn.addEventListener('click', init);
 boardEl.addEventListener('contextmenu', handleRightClick);
 boardEl.addEventListener('click', handleLeftClick);
-boardEl.addEventListener('longclick', handleRightClick);
+boardEl.addEventListener('long-press', handleRightClick);
 
 /*----game play functions----*/
 function changeBoardSize(e){
@@ -81,18 +78,18 @@ function init(e){
     lose = false;
     flags = 0;
     maxBombs = placeBombs();
-    console.log(`number of bombs is ${maxBombs}`)
     boardEl.addEventListener('click', handleLeftClick);
     render();
 }
 
 function render(){
         if (lose) {
-            msgBannerEl.innerText = 'You Lose!';
+            msgEl.innerText = 'Game Over';
             showMessage();
         }
         if (win) {
-            msgBannerEl.innerText = 'Winner winner chicken dinner!'
+            msgEl.style.color = 'orange';
+            msgEl.innerText = 'Winner, winner, chicken dinner!'
             showMessage();
         }
 }
@@ -141,9 +138,11 @@ function checkWinner(){
     });
 }
 function showMessage(){
+    let width = boardEl.clientWidth;
     msgEl.style.display = 'flex';
-    msgBannerEl.style.width = `${boardX * 35}px`;
-    msgBannerEl.style.height = `${boardX * 10}px`;
+    msgEl.style.width = `${width}px`;
+    msgEl.style.height = `${width}px`;
+    replayBtn.style.display = 'revert';
     boardEl.removeEventListener('click', handleLeftClick);
 }
 function makeBoard(){
@@ -195,8 +194,6 @@ function placeBombs(){
             if (board[x][y] === safe) {
                 board[x][y] = bomb;
                 numOfBombs++;
-                console.log(numOfBombs)
-                console.log('if statement hitting')
             }
         }
     } else {
@@ -206,12 +203,9 @@ function placeBombs(){
             if (board[x][y] === safe) {
                 board[x][y] = bomb;
                 numOfBombs++;
-                console.log(numOfBombs)
-                console.log('if statement hitting')
             }
         }
     }
-    console.log(board)
     placeNumbers();
     return numOfBombs;
 }
@@ -251,7 +245,6 @@ function placeNumbers(){
 function checkNeighbors(coordX, coordY) {
     const squareEls = document.querySelectorAll('.square');
     squareEls.forEach(sq => {
-        let count = 0;
         let x = parseInt(sq.getAttribute('data-x'));
         let y = parseInt(sq.getAttribute('data-y'));
         if (coordX === x && coordY === y) sq.id = 'safe'; //center
