@@ -261,20 +261,24 @@ function checkNeighbors(coordX, coordY) {
 //trying long touch for IOS
 //need touchstart, touchend, a timer
 //fire flagging function (handleRightClick)
-let longTouch;
-let timer;
-let touchDuration = 500; //length of time we want the user to touch before we do something
+function onLongPress(element, callback) {
+    let timer;
 
-function touchStart(e) {
-    if (!timer) {
-        timer = setTimeout(longTouch, touchDuration); 
-    }
-    console.log(timer)
-}
-
-function touchEnd() {
-    //stops short touches from firing the event
-    if (timer)
-        clearTimeout(timer);
+    element.addEventListener('touchstart', (e) => { 
+    timer = setTimeout(() => {
         timer = null;
+        callback();
+    }, 500);
+    handleRightClick;
+    });
+
+    function cancel() {
+    clearTimeout(timer);
+    }
+
+    element.addEventListener('touchend', cancel);
+    element.addEventListener('touchmove', cancel);
+
+
 }
+
