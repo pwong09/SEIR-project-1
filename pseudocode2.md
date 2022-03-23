@@ -44,3 +44,12 @@ initialize render function
 
 //need to check all functions in original pseudocode to make everything dynamic to boardSize / boardrow / board.length  
 //remember to account for different data types  
+
+
+//2022.22.03 brainstorming additional features 
+- add animation to hidden->safe square reveal
+- add animation / something to win/lose scenarios
+- check background color & text color for accessibility
+- show all bombs upon losing
+- add a timer
+- add a high score time?

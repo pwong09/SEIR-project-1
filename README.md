@@ -20,6 +20,5 @@ a browser game
 [Original Wireframe](https://www.figma.com/file/VjNbEEBTZESgVrJ7cGKZr1/Untitled?node-id=0%3A1)  
 
 ### Future Enhancements
-- give players multiple board size options
 - add sound effects for bomb reveal
 - add animation for multiple safe square reveals

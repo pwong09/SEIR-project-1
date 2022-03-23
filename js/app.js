@@ -22,7 +22,6 @@ let boardX;
 let boardY;
 let maxBombs;
 
-
 /*----cached elements----*/
 const boardEl = document.querySelector('.board');
 const boardSizeEl = document.querySelector('.board-sizes')
@@ -57,8 +56,8 @@ function changeBoardSize(e){
             boardEl.style.gridTemplateRows =  `repeat(${boardY}, 1fr)`;
 
         } else if (e.target.innerText === 'Hard') {
-            boardX = 12;
-            boardY = 12;
+            boardX = 20;
+            boardY = 20;
             boardSize = boardX * boardY;
             boardEl.style.gridTemplateColumns = `repeat(${boardX}, 1fr)`;
             boardEl.style.gridTemplateRows = `repeat(${boardY}, 1fr)`;
@@ -89,20 +88,12 @@ function init(e){
 function render(){
     checkWinner();
         if (lose) {
-            msgEl.style.display = 'flex';
             msgBannerEl.innerText = 'You Lose!';
-            msgBannerEl.style.width = `${boardX * 35}px`;
-            msgBannerEl.style.height = `${boardX * 10}px`;
-            boardEl.removeEventListener('click', handleLeftClick);
-            console.log('you lose!')
+            showMessage();
         }
         if (win) {
-            msgEl.style.display = 'flex';
             msgBannerEl.innerText = 'Winner winner chicken dinner!'
-            msgBannerEl.style.width = `${boardX * 35}px`;
-            msgBannerEl.style.height = `${boardX * 10}px`;
-            boardEl.removeEventListener('click', handleLeftClick);
-            console.log('you win!')
+            showMessage();
         }
 }
 
@@ -144,8 +135,14 @@ function checkWinner(){
     squareEls.forEach(sq => {
         let sqX = parseInt(sq.getAttribute('data-x'));
         let sqY = parseInt(sq.getAttribute('data-y'));
-        if (sq.id === 'flag' && board[sqX][sqY] === bomb && flags === maxBombs) win = true;
+        if (flags === maxBombs) win = true;
     });
+}
+function showMessage(){
+    msgEl.style.display = 'flex';
+    msgBannerEl.style.width = `${boardX * 35}px`;
+    msgBannerEl.style.height = `${boardX * 10}px`;
+    boardEl.removeEventListener('click', handleLeftClick);
 }
 function makeBoard(){
     board = [];
@@ -189,20 +186,29 @@ function placeBombs(){
             board[i][j] = safe;
         }
     }
-    //should run 8 times for a small board
-    for (let i = 0; i < boardX; i++) {
-        let x = randomIndex()
-        let y = randomIndex()
-        if (board[x][y] === safe) {
-            //will only add a bomb if the initial coordinates value is 0
-            board[x][y] = bomb;
-            //will only add if we place a bomb?
-            numOfBombs++;
-            console.log(numOfBombs)
-            console.log('if statement hitting')
+    if (boardX < 10) {
+        for (let i = 0; i < (boardX); i++) {
+            let x = randomIndex()
+            let y = randomIndex()
+            if (board[x][y] === safe) {
+                board[x][y] = bomb;
+                numOfBombs++;
+                console.log(numOfBombs)
+                console.log('if statement hitting')
+            }
+        }
+    } else {
+        for (let i = 0; i < (boardX*2); i++) {
+            let x = randomIndex()
+            let y = randomIndex()
+            if (board[x][y] === safe) {
+                board[x][y] = bomb;
+                numOfBombs++;
+                console.log(numOfBombs)
+                console.log('if statement hitting')
+            }
         }
     }
-    //but sometimes we only get 7 bombs, why???
     console.log(board)
     placeNumbers();
     return numOfBombs;
@@ -246,8 +252,6 @@ function placeNumbers(){
             }
         }
     } //end of for loop
-
-    
 }
 
 function checkNeighbors(coordX, coordY) {
