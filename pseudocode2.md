@@ -53,3 +53,4 @@ initialize render function
 - show all bombs upon losing
 - add a timer
 - add a high score time?
+- show how many flags I have to indicate how many bombs there are
