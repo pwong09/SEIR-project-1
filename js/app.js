@@ -39,6 +39,7 @@ boardEl.addEventListener('long-press', handleRightClick);
 function changeBoardSize(e){
     if (e.target.tagName === 'DIV') return
     if (e.target.className === 'board-size') {
+        boardEl.style.display = 'grid';
         if (e.target.innerText === 'Easy') {
             boardX = 10;
             boardY = 10;
@@ -163,13 +164,15 @@ function makeBoard(){
     let x = 0;
     let y = 0;
     for (let i = 0; i < boardSize; i++) {
+        let width = boardEl.clientWidth;
+        let sqWidth = width / boardX;
         const squareEl = document.createElement('button');
         squareEl.className = "square";
         squareEl.id = "hidden";
         squareEl.setAttribute('data-x', `${x}`);
         squareEl.setAttribute('data-y', `${y}`);
-        squareEl.style.width = `${boardX * 2}px`;
-        squareEl.style.height = `${boardX * 2}px`;
+        squareEl.style.width = `${sqWidth}px`;
+        squareEl.style.height = `${sqWidth}px`;
         boardEl.appendChild(squareEl);
         if (y < (boardX - 1)) {
             y++;
@@ -255,3 +258,23 @@ function checkNeighbors(coordX, coordY) {
         });
 }
 
+//trying long touch for IOS
+//need touchstart, touchend, a timer
+//fire flagging function (handleRightClick)
+let longTouch;
+let timer;
+let touchDuration = 500; //length of time we want the user to touch before we do something
+
+function touchStart(e) {
+    if (!timer) {
+        timer = setTimeout(longTouch, touchDuration); 
+    }
+    console.log(timer)
+}
+
+function touchEnd() {
+    //stops short touches from firing the event
+    if (timer)
+        clearTimeout(timer);
+        timer = null;
+}
