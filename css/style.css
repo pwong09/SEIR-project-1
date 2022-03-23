@@ -26,6 +26,7 @@ main {
     border: 2px solid white;
     background-color: var(--hidden);
     font-size: 0px;
+    max-width: 100%;
 }
 .msg {
     display: none;
@@ -47,12 +48,13 @@ main {
 .replay-1, .replay-2, .board-size {
     cursor: pointer;
     width: 120px;
-    height: 40px;
+    height: auto;
     font-size: 18px;
     background-color: white;
     border-radius: 10px;
     margin: 10px;
     border: 3px solid black;
+    overflow: auto;
 }
 .replay-1:hover, .replay-2:hover, .board-size:hover {
     background-color: var(--empty);
@@ -66,7 +68,7 @@ button#hidden {
 button#safe {
     background-color: var(--empty);
     cursor: not-allowed;
-    font-size: 100%;
+    font-size: auto;
     font-weight: 700;
 }
 button#bomb {

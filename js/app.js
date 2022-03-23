@@ -86,7 +86,6 @@ function init(e){
 }
 
 function render(){
-    checkWinner();
         if (lose) {
             msgBannerEl.innerText = 'You Lose!';
             showMessage();
@@ -126,6 +125,7 @@ function handleRightClick(e){
         flags--;
     }
     if (sq.id === 'flag' && board[sqX][sqY] === bomb) flags++;
+    checkWinner();
 render();
 }
 
@@ -167,8 +167,8 @@ function makeBoard(){
         squareEl.id = "hidden";
         squareEl.setAttribute('data-x', `${x}`);
         squareEl.setAttribute('data-y', `${y}`);
-        squareEl.style.width = `${boardX * 2}px`;
-        squareEl.style.height = `${boardX * 2}px`;
+        squareEl.style.width = `${boardX * 3}px`;
+        squareEl.style.height = `${boardX * 3}px`;
         boardEl.appendChild(squareEl);
         if (y < (boardX - 1)) {
             y++;
@@ -231,27 +231,19 @@ function placeNumbers(){
         let lastRow = boardX - 1
         if (board[sqX][sqY] === safe) {
             if (board[sqX][(sqY-1)] === bomb && !leftSide) bombCount++;
-                // console.log('bomb is to the left!')
             if (!rightSide && board[sqX][(sqY+1)] === bomb) bombCount++;
-                // console.log('bomb is to the right!')
             if ((sqX > 0 && board[(sqX - 1)][sqY] === bomb)) bombCount++;
-                // console.log('bomb is below!')
             if ((sqX < lastRow && board[(sqX + 1)][sqY] === bomb)) bombCount++;
-                // console.log('bomb is above!')
             if (!rightSide && sqX > 0 && board[(sqX - 1)][(sqY - 1)] === bomb) bombCount++;
-                // console.log('bomb is to the left & above!')
             if (sqX > 0 && board[(sqX - 1)][(sqY + 1)] === bomb) bombCount++;
-                // console.log('bomb on upper right hand corner')
             if (sqX < lastRow && board[(sqX + 1)][(sqY - 1)] === bomb) bombCount++;
-                // console.log('bomb is to the right & below!')
             if (sqX < lastRow && board[(sqX + 1)][(sqY + 1)] === bomb) bombCount++;
-                // console.log('bomb is to the left & below!')
             if (bombCount > 0) {
                 sq.innerText = `${bombCount}`;
                 sq.style.color = `${colors[bombCount]}`;
             }
         }
-    } //end of for loop
+    }
 }
 
 function checkNeighbors(coordX, coordY) {
