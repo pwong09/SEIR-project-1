@@ -16,7 +16,7 @@ body {
     justify-items: center;
 }
 h1, h3 {
-    margin-top: 30px;
+    margin: 15px auto;
     font-family: Bungee, Helvetica, sans-serif;
     font-size: 5vw;
     text-align: center;
@@ -78,6 +78,7 @@ main {
     display: none;
     height: auto;
     background-color: rgb(37, 194, 37);
+    width: 120px;
 }
 .replay:hover {
     background-color: rgb(121, 255, 121);
@@ -91,7 +92,7 @@ button#hidden {
 button#safe {
     background-color: var(--empty);
     cursor: not-allowed;
-    font-size: 1.3vw;
+    font-size: 2vw;
     font-weight: 700;
 }
 button#bomb {
