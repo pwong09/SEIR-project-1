@@ -41,15 +41,15 @@ function changeBoardSize(e){
     if (e.target.className === 'board-size') {
         boardEl.style.display = 'grid';
         if (e.target.innerText === 'Easy') {
-            boardX = 10;
-            boardY = 10;
+            boardX = 8;
+            boardY = 8;
             boardSize = boardX * boardY;
             boardEl.style.gridTemplateColumns = `repeat(${boardX}, 1fr)`;
             boardEl.style.gridTemplateRows =  `repeat(${boardY}, 1fr)`;
 
         } else if (e.target.innerText === 'Medium') {
-            boardX = 13;
-            boardY = 13;
+            boardX = 10;
+            boardY = 10;
             boardSize = boardX * boardY;
             boardEl.style.gridTemplateColumns = `repeat(${boardX}, 1fr)`;
             boardEl.style.gridTemplateRows =  `repeat(${boardY}, 1fr)`;
@@ -84,15 +84,25 @@ function init(e){
 }
 
 function render(){
-        if (lose) {
-            msgEl.innerText = 'Game Over';
-            showMessage();
+    const squareEls = document.querySelectorAll('.square');
+    if (lose) {
+        msgEl.innerText = 'Game Over';
         }
-        if (win) {
-            msgEl.style.color = 'orange';
-            msgEl.innerText = 'Winner, winner, chicken dinner!'
-            showMessage();
-        }
+    if (win) {
+        msgEl.style.color = 'orange';
+        msgEl.innerText = 'Winner, winner, chicken dinner!';
+    }
+    if (lose || win) {
+        squareEls.forEach(sq => {
+            let sqX = parseInt(sq.getAttribute('data-x'));
+            let sqY = parseInt(sq.getAttribute('data-y'));
+            if (board[sqX][sqY] === 1) {
+                sq.id = 'bomb';
+            }
+        });
+        setTimeout(() => {showMessage();}, 1500);
+    }
+    checkWinner();
 }
 
 function handleLeftClick(e){
@@ -125,18 +135,21 @@ function handleRightClick(e){
         flags--;
     }
     if (sq.id === 'flag' && board[sqX][sqY] === bomb) flags++;
-    checkWinner();
+    
 render();
 }
 
 /*----helper functions----*/
 function checkWinner(){
+    let count = 0;
     const squareEls = document.querySelectorAll('.square');
     squareEls.forEach(sq => {
         let sqX = parseInt(sq.getAttribute('data-x'));
         let sqY = parseInt(sq.getAttribute('data-y'));
+        if (sq.id === 'safe') count++;
         if (flags === maxBombs) win = true;
     });
+    if (count === (boardSize - maxBombs)) win = true;
 }
 function showMessage(){
     let width = boardEl.clientWidth;
@@ -257,28 +270,3 @@ function checkNeighbors(coordX, coordY) {
         if (sq.id === 'safe') sq.disabled = true;
         });
 }
-
-//trying long touch for IOS
-//need touchstart, touchend, a timer
-//fire flagging function (handleRightClick)
-function onLongPress(element, callback) {
-    let timer;
-
-    element.addEventListener('touchstart', (e) => { 
-    timer = setTimeout(() => {
-        timer = null;
-        callback();
-    }, 500);
-    handleRightClick;
-    });
-
-    function cancel() {
-    clearTimeout(timer);
-    }
-
-    element.addEventListener('touchend', cancel);
-    element.addEventListener('touchmove', cancel);
-
-
-}
-

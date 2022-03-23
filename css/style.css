@@ -62,7 +62,7 @@ main {
     cursor: pointer;
     width: 110px;
     height: auto;
-    font-size: 18px;
+    font-size: 16px;
     background-color: rgba(255, 255, 6, 0.988);
     font-family: Bungee, Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     border-radius: 10px;
@@ -111,8 +111,15 @@ button#flag {
     background-position: center;
 }
 
-/* @media only screen and (min-width: 768px) {
-    .board-sizes {
-        display: 
+@media only screen and (min-width: 768px) {
+    .board {
+        width: 500px;
+        height: 500px;
     }
-} */
+}
+@media only screen and (min-width: 1024px) {
+    .board {
+        width: 800px;
+        height: 800px;
+    }
+}
