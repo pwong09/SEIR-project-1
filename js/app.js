@@ -167,8 +167,8 @@ function makeBoard(){
         squareEl.id = "hidden";
         squareEl.setAttribute('data-x', `${x}`);
         squareEl.setAttribute('data-y', `${y}`);
-        squareEl.style.width = `${boardX * 3}px`;
-        squareEl.style.height = `${boardX * 3}px`;
+        squareEl.style.width = `${boardX * 2}px`;
+        squareEl.style.height = `${boardX * 2}px`;
         boardEl.appendChild(squareEl);
         if (y < (boardX - 1)) {
             y++;

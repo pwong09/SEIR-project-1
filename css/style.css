@@ -68,7 +68,7 @@ button#hidden {
 button#safe {
     background-color: var(--empty);
     cursor: not-allowed;
-    font-size: auto;
+    font-size: 12px;
     font-weight: 700;
 }
 button#bomb {
