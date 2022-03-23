@@ -32,10 +32,11 @@ const msgBannerEl = document.querySelector('.msg div')
 
 /*----Event Listeners----*/
 boardSizeEl.addEventListener('click', changeBoardSize)
-boardEl.addEventListener('click', handleLeftClick);
 replayBtn1.addEventListener('click', init);
 replayBtn2.addEventListener('click', init);
 boardEl.addEventListener('contextmenu', handleRightClick);
+boardEl.addEventListener('click', handleLeftClick);
+boardEl.addEventListener('longclick', handleRightClick);
 
 /*----game play functions----*/
 function changeBoardSize(e){
@@ -109,6 +110,7 @@ function handleLeftClick(e){
     }
 render();
 }
+
 function handleRightClick(e){
     e.preventDefault();
     let sq = e.target;

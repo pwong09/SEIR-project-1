@@ -47,7 +47,7 @@ main {
 }
 .replay-1, .replay-2, .board-size {
     cursor: pointer;
-    width: 120px;
+    width: 100px;
     height: auto;
     font-size: 18px;
     background-color: white;
@@ -68,8 +68,8 @@ button#hidden {
 button#safe {
     background-color: var(--empty);
     cursor: not-allowed;
-    font-size: 12px;
-    font-weight: 700;
+    font-size: 10px;
+    font-weight: 500;
 }
 button#bomb {
     background-color: var(--bomb);
@@ -82,7 +82,7 @@ button#bomb {
 button#flag {
     background-image: url(../assets/flag.png);
     image-rendering: auto;
-    max-width: 100%;
+    width: 100%;
     height: auto;
     background-repeat: no-repeat;
     background-position: center;
