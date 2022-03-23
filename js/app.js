@@ -86,6 +86,7 @@ function init(e){
 function render(){
     const squareEls = document.querySelectorAll('.square');
     if (lose) {
+        msgEl.style.color = 'yellow';
         msgEl.innerText = 'Game Over';
         }
     if (win) {

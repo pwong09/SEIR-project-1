@@ -48,9 +48,9 @@ initialize render function
 
 //2022.22.03 brainstorming additional features 
 - add animation to hidden->safe square reveal
-- add animation / something to win/lose scenarios
-- check background color & text color for accessibility
-- show all bombs upon losing
+- add animation / something to win/lose scenarios - added blanket banner to cover the grid 3/23/2022
+- check background color & text color for accessibility - done 3/23/2022
+- show all bombs upon losing - done! 3/23/2022
 - add a timer
 - add a high score time?
 - show how many flags I have to indicate how many bombs there are
