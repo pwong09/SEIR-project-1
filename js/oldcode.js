@@ -141,4 +141,13 @@ if (board[sqX][sqY] === safe) {
         // console.log('bomb is to the left & below!')
     }
 }
-} //end of for loop
+
+if (board[sqX][(sqY-1)] === bomb && !leftSide) bombCount++;
+if (!rightSide && board[sqX][(sqY+1)] === bomb) bombCount++;
+if ((sqX > 0 && board[(sqX - 1)][sqY] === bomb)) bombCount++;
+if ((sqX < lastRow && board[(sqX + 1)][sqY] === bomb)) bombCount++;
+if (!rightSide && sqX > 0 && board[(sqX - 1)][(sqY - 1)] === bomb) bombCount++;
+if (sqX > 0 && board[(sqX - 1)][(sqY + 1)] === bomb) bombCount++;
+if (sqX < lastRow && board[(sqX + 1)][(sqY - 1)] === bomb) bombCount++;
+if (sqX < lastRow && board[(sqX + 1)][(sqY + 1)] === bomb) bombCount++;
+

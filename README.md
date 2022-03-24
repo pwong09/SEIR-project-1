@@ -1,7 +1,8 @@
 # SEIR-project-1
-a browser game
 
 # Pearl's Minesweeper
+A revamped version of the classic logic-based, single-player computer game. The object of the game is to find the randomly placed "mines" by clicking on "safe" squares while either flagging the squares with mines or avoiding them entirely. You get clues from the safe squares about the number of adjacent mines, if any.  
+If a square containing a mine is clicked on, the game ends.  
 
 ### Gameplay Screenshots
 <p>
@@ -22,5 +23,5 @@ a browser game
 [Original Wireframe](https://www.figma.com/file/VjNbEEBTZESgVrJ7cGKZr1/Untitled?node-id=0%3A1)  
 
 ### Future Enhancements
-- add sound effects for bomb reveal
+- add sound effect for bomb reveal
 - add animation for multiple safe square reveals

@@ -12,15 +12,16 @@ const colors = {
     8: '#000000'
 };
 
-/*----state----*/
+/*----state variables----*/
 let win;
 let lose;
 let board;
 let flags;
 let boardSize;
-let boardX;
-let boardY;
+let rows;
+let cols;
 let maxBombs;
+let squareEls;
 
 /*----cached elements----*/
 const boardEl = document.querySelector('.board');
@@ -41,26 +42,19 @@ function changeBoardSize(e){
     if (e.target.className === 'board-size') {
         boardEl.style.display = 'grid';
         if (e.target.innerText === 'Easy') {
-            boardX = 8;
-            boardY = 8;
-            boardSize = boardX * boardY;
-            boardEl.style.gridTemplateColumns = `repeat(${boardX}, 1fr)`;
-            boardEl.style.gridTemplateRows =  `repeat(${boardY}, 1fr)`;
+            rows = 8;
+            cols = 8;
+            boardSize = rows * cols;
 
         } else if (e.target.innerText === 'Medium') {
-            boardX = 10;
-            boardY = 10;
-            boardSize = boardX * boardY;
-            boardEl.style.gridTemplateColumns = `repeat(${boardX}, 1fr)`;
-            boardEl.style.gridTemplateRows =  `repeat(${boardY}, 1fr)`;
+            rows = 10;
+            cols = 10;
+            boardSize = rows * cols;
 
         } else if (e.target.innerText === 'Hard') {
-            boardX = 20;
-            boardY = 20;
-            boardSize = boardX * boardY;
-            boardEl.style.gridTemplateColumns = `repeat(${boardX}, 1fr)`;
-            boardEl.style.gridTemplateRows = `repeat(${boardY}, 1fr)`;
-
+            rows = 20;
+            cols = 20;
+            boardSize = rows * cols;
         }
     }
 makeBoard();
@@ -68,7 +62,6 @@ init();
 }
 
 function init(e){
-    const squareEls = document.querySelectorAll('.square');
     squareEls.forEach(sq => {
         sq.innerText = '';
         sq.id = 'hidden'
@@ -84,7 +77,6 @@ function init(e){
 }
 
 function render(){
-    const squareEls = document.querySelectorAll('.square');
     if (lose) {
         msgEl.style.color = 'yellow';
         msgEl.innerText = 'Game Over';
@@ -94,28 +86,30 @@ function render(){
         msgEl.innerText = 'Winner, winner, chicken dinner!';
     }
     if (lose || win) {
+        boardEl.removeEventListener('click', handleLeftClick);
         squareEls.forEach(sq => {
-            let sqX = parseInt(sq.getAttribute('data-x'));
-            let sqY = parseInt(sq.getAttribute('data-y'));
-            if (board[sqX][sqY] === 1) {
+            let x = parseInt(sq.getAttribute('data-x'));
+            let y = parseInt(sq.getAttribute('data-y'));
+            if (board[x][y] === bomb) {
                 sq.id = 'bomb';
+                sq.innerText = '💣';
             }
         });
-        setTimeout(() => {showMessage();}, 1500);
+        setTimeout(() => {showMessage();}, 1000);
     }
-checkWinner();
 }
 
 function handleLeftClick(e){
     let sq = e.target;
     if (sq.tagName === 'SECTION') return;
-    let sqX = parseInt(sq.getAttribute('data-x'));
-    let sqY = parseInt(sq.getAttribute('data-y'));
-    if (board[sqX][sqY] === bomb) {
+    let x = parseInt(sq.getAttribute('data-x'));
+    let y = parseInt(sq.getAttribute('data-y'));
+    if (board[x][y] === bomb) {
         sq.id = 'bomb';
+        sq.innerText = '💣';
         lose = true;
     } else {
-        checkNeighbors(sqX, sqY);
+        checkNeighbors(x, y);
     }
 checkWinner();
 render();
@@ -124,8 +118,8 @@ render();
 function handleRightClick(e){
     e.preventDefault();
     let sq = e.target;
-    let sqX = sq.getAttribute('data-x');
-    let sqY = sq.getAttribute('data-y');
+    let x = sq.getAttribute('data-x');
+    let y = sq.getAttribute('data-y');
     if (sq.tagName === 'SECTION') return;
     if (sq.id === 'safe') return;
     if (sq.id === 'hidden'){
@@ -136,8 +130,7 @@ function handleRightClick(e){
         sq.disabled = false;
         flags--;
     }
-    if (sq.id === 'flag' && board[sqX][sqY] === bomb) flags++;
-
+    if (sq.id === 'flag' && board[x][y] === bomb) flags++;
 checkWinner();
 render();
 }
@@ -145,10 +138,7 @@ render();
 /*----helper functions----*/
 function checkWinner(){
     let count = 0;
-    const squareEls = document.querySelectorAll('.square');
     squareEls.forEach(sq => {
-        let sqX = parseInt(sq.getAttribute('data-x'));
-        let sqY = parseInt(sq.getAttribute('data-y'));
         if (sq.id === 'safe') count++;
         if (flags === maxBombs) win = true;
     });
@@ -160,19 +150,21 @@ function showMessage(){
     msgEl.style.width = `${width}px`;
     msgEl.style.height = `${width}px`;
     replayBtn.style.display = 'revert';
-    boardEl.removeEventListener('click', handleLeftClick);
 }
 function makeBoard(){
     board = [];
-    for (let i = 0; i < boardX; i++){
+    for (let i = 0; i < rows; i++){
         board[i] = [];
     }
     board.forEach(row => {
-        for (let i = 0; i < boardX; i++){
+        for (let i = 0; i < rows; i++){
             row.push(safe);
         }
     });
-    /*making the board's squares and coordinates*/
+    boardSize = rows * cols;
+    boardEl.style.gridTemplateColumns = `repeat(${rows}, 1fr)`;
+    boardEl.style.gridTemplateRows =  `repeat(${cols}, 1fr)`;
+    /*make the board's squares and coordinates*/
     if (boardEl.childElementCount === 0 || boardEl.childElementCount !== boardSize) {
     while (boardEl.firstChild) {
             boardEl.removeChild(boardEl.firstChild);
@@ -181,7 +173,7 @@ function makeBoard(){
     let y = 0;
     for (let i = 0; i < boardSize; i++) {
         let width = boardEl.clientWidth;
-        let sqWidth = width / boardX;
+        let sqWidth = width / rows;
         const squareEl = document.createElement('button');
         squareEl.className = "square";
         squareEl.id = "hidden";
@@ -190,24 +182,25 @@ function makeBoard(){
         squareEl.style.width = `${sqWidth}px`;
         squareEl.style.height = `${sqWidth}px`;
         boardEl.appendChild(squareEl);
-        if (y < (boardX - 1)) {
+        if (y < (rows - 1)) {
             y++;
         } else {
             y = 0;
             x++;
         }
     }
+    squareEls = document.querySelectorAll('.square');
 }
 }
 function placeBombs(){
     let numOfBombs = 0;
-    for(let i = 0; i < boardX; i++) {
-        for (let j = 0; j < boardX; j++) {
+    for(let i = 0; i < rows; i++) {
+        for (let j = 0; j < rows; j++) {
             board[i][j] = safe;
         }
     }
-    if (boardX < 11) {
-        for (let i = 0; i < (boardX); i++) {
+    if (rows < 10) {
+        for (let i = 0; i < (rows); i++) {
             let x = randomIndex()
             let y = randomIndex()
             if (board[x][y] === safe) {
@@ -216,7 +209,7 @@ function placeBombs(){
             }
         }
     } else {
-        for (let i = 0; i < (boardX*2); i++) {
+        for (let i = 0; i < (rows*2); i++) {
             let x = randomIndex()
             let y = randomIndex()
             if (board[x][y] === safe) {
@@ -229,30 +222,24 @@ function placeBombs(){
     return numOfBombs;
 }
 
-function randomIndex(){
-    let index = Math.floor(Math.random() * boardX);
-    return index;
-}
-
 function placeNumbers(){
-    const squareEls = document.querySelectorAll('.square');
     for (let i = 0; i < boardSize; i++) {
         let bombCount = 0;
         let sq = squareEls[i];
-        let sqX = parseInt(sq.getAttribute('data-x'));
-        let sqY = parseInt(sq.getAttribute('data-y'));
-        let leftSide = i % boardX === 0;
-        let rightSide = i % boardX === .875;
-        let lastRow = boardX - 1
-        if (board[sqX][sqY] === safe) {
-            if (board[sqX][(sqY-1)] === bomb && !leftSide) bombCount++;
-            if (!rightSide && board[sqX][(sqY+1)] === bomb) bombCount++;
-            if ((sqX > 0 && board[(sqX - 1)][sqY] === bomb)) bombCount++;
-            if ((sqX < lastRow && board[(sqX + 1)][sqY] === bomb)) bombCount++;
-            if (!rightSide && sqX > 0 && board[(sqX - 1)][(sqY - 1)] === bomb) bombCount++;
-            if (sqX > 0 && board[(sqX - 1)][(sqY + 1)] === bomb) bombCount++;
-            if (sqX < lastRow && board[(sqX + 1)][(sqY - 1)] === bomb) bombCount++;
-            if (sqX < lastRow && board[(sqX + 1)][(sqY + 1)] === bomb) bombCount++;
+        let x = parseInt(sq.getAttribute('data-x'));
+        let y = parseInt(sq.getAttribute('data-y'));
+        let leftSide = i % rows === 0;
+        let rightSide = i % rows === .875;
+        let lastRow = rows - 1;
+        if (board[x][y] === safe) {
+            if (board[x][(y-1)] === bomb && !leftSide) bombCount++;
+            if (!rightSide && board[x][(y+1)] === bomb) bombCount++;
+            if (x > 0 && board[(x - 1)][y] === bomb) bombCount++;
+            if (x < lastRow && board[(x + 1)][y] === bomb) bombCount++;
+            if (!rightSide &&x > 0 && board[(x - 1)][(y - 1)] === bomb) bombCount++;
+            if (x > 0 && board[(x - 1)][(y + 1)] === bomb) bombCount++;
+            if (x < lastRow && board[(x + 1)][(y - 1)] === bomb) bombCount++;
+            if (x < lastRow && board[(x + 1)][(y + 1)] === bomb) bombCount++;
             if (bombCount > 0) {
                 sq.innerText = `${bombCount}`;
                 sq.style.color = `${colors[bombCount]}`;
@@ -262,14 +249,21 @@ function placeNumbers(){
 }
 
 function checkNeighbors(coordX, coordY) {
-    const squareEls = document.querySelectorAll('.square');
+    if (coordX < 0 || coordY < 0 || coordX > rows || coordY > cols) return;
     squareEls.forEach(sq => {
         let x = parseInt(sq.getAttribute('data-x'));
         let y = parseInt(sq.getAttribute('data-y'));
-        if (coordX === x && coordY === y) sq.id = 'safe'; //center
-        if (((coordX + 1) === x || (coordX - 1) === x) && coordY === y && board[x][y] === safe) sq.id = 'safe'; 
-        if (((coordY + 1) === y || (coordY - 1) === y) && coordX === x && board[x][y] === safe) sq.id = 'safe'; 
-        if (((coordX - 1) === x || (coordX + 1) === x) && ((coordY - 1) === y || (coordY + 1) === y) && board[x][y] === safe) sq.id = 'safe';
+        if (coordX ===x && coordY === y) sq.id = 'safe'; //center
+        if (((coordX + 1) ===x || (coordX - 1) === x) && coordY === y && board[x][y] === safe) sq.id = 'safe'; 
+        if (((coordY + 1) === y || (coordY - 1) === y) && coordX ===x && board[x][y] === safe) sq.id = 'safe'; 
+        if (((coordX - 1) ===x || (coordX + 1) ===x) && ((coordY - 1) === y || (coordY + 1) === y) && board[x][y] === safe) sq.id = 'safe';
         if (sq.id === 'safe') sq.disabled = true;
         });
 }
+
+function randomIndex(){
+    let index = Math.floor(Math.random() * rows);
+    return index;
+}
+
+//touch and hold
