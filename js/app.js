@@ -34,7 +34,7 @@ boardSizeEl.addEventListener('click', changeBoardSize)
 replayBtn.addEventListener('click', init);
 boardEl.addEventListener('contextmenu', handleRightClick);
 boardEl.addEventListener('click', handleLeftClick);
-boardEl.addEventListener('long-press', handleRightClick);
+//boardEl.addEventListener('long-press', handleRightClick);
 
 /*----game play functions----*/
 function changeBoardSize(e){
@@ -267,3 +267,19 @@ function randomIndex(){
 }
 
 //touch and hold
+let timerInterval;
+
+function touchstart(e) {
+    setTimeout(() => {
+        handleRightClick(e);
+    }, 300);
+}
+
+function touchend() {
+    clearTimeout();
+}
+
+
+
+boardEl.addEventListener('touchstart',touchstart);
+boardEl.addEventListener('touchend',touchend);
