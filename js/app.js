@@ -271,7 +271,6 @@ let timerInterval;
 
 
 function touchstart(e) {
-    e.preventDefault();
     let sq = e.target;
     timer(touchDuration);
     function timer(interval) {
