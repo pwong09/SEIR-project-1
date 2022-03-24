@@ -34,6 +34,8 @@ boardSizeEl.addEventListener('click', changeBoardSize)
 replayBtn.addEventListener('click', init);
 boardEl.addEventListener('contextmenu', handleRightClick);
 boardEl.addEventListener('click', handleLeftClick);
+boardEl.addEventListener('touchstart',touchstart);
+boardEl.addEventListener('touchend',touchend);
 
 /*----game play functions----*/
 function changeBoardSize(e){
@@ -145,7 +147,7 @@ function checkWinner(){
 }
 function showMessage(){
     let width = boardEl.clientWidth;
-    msgEl.style.display = 'flex';
+    msgEl.style.display = 'grid';
     msgEl.style.width = `${width}px`;
     msgEl.style.height = `${width}px`;
     replayBtn.style.display = 'revert';
@@ -290,8 +292,3 @@ function touchstart(e) {
 function touchend() {
     clearTimeout(timerInterval);
 }
-
-
-
-boardEl.addEventListener('touchstart',touchstart);
-boardEl.addEventListener('touchend',touchend);
