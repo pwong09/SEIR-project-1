@@ -50,8 +50,8 @@ function changeBoardSize(e){
             rows = 10;
             cols = 10;
         } else if (e.target.innerText === 'Hard') {
-            rows = 20;
-            cols = 20;
+            rows = 18;
+            cols = 18;
         }
     }
 makeBoard();
