@@ -103,7 +103,7 @@ function render(){
         });
         setTimeout(() => {showMessage();}, 1500);
     }
-    checkWinner();
+checkWinner();
 }
 
 function handleLeftClick(e){
@@ -117,6 +117,7 @@ function handleLeftClick(e){
     } else {
         checkNeighbors(sqX, sqY);
     }
+checkWinner();
 render();
 }
 
@@ -136,7 +137,8 @@ function handleRightClick(e){
         flags--;
     }
     if (sq.id === 'flag' && board[sqX][sqY] === bomb) flags++;
-    
+
+checkWinner();
 render();
 }
 
