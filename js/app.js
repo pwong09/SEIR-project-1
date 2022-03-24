@@ -266,7 +266,7 @@ function randomIndex(){
 }
 
 //touch and hold for iOS devices to add flags
-const touchDuration = 300; 
+const touchDuration = 200; 
 let timerInterval;
 
 
