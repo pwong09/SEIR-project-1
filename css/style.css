@@ -59,9 +59,9 @@ main {
     grid-area: 1 / 1 / 3 / 2;
 }
 .msg > p {
+    padding: 40% 10%;
     width: 100%;
     height: auto;
-    margin-top: 45%;
 }
 .replay, .board-size {
     cursor: pointer;
