@@ -28,6 +28,7 @@ const boardEl = document.querySelector('.board');
 const boardSizeEl = document.querySelector('.board-sizes')
 const replayBtn = document.querySelector('.replay');
 const msgEl = document.querySelector('.msg');
+const msgTextEl = document.querySelector('.msg > p')
 
 /*----Event Listeners----*/
 boardSizeEl.addEventListener('click', changeBoardSize)
@@ -80,11 +81,11 @@ function init(e){
 function render(){
     if (lose) {
         msgEl.style.color = 'yellow';
-        msgEl.innerText = 'Game Over';
+        msgTextEl.innerText = 'Game Over';
         }
     if (win) {
         msgEl.style.color = 'orange';
-        msgEl.innerText = 'Winner, winner, chicken dinner!';
+        msgTextEl.innerText = 'Winner, winner, chicken dinner!';
     }
     if (lose || win) {
         boardEl.removeEventListener('click', handleLeftClick);
@@ -147,7 +148,7 @@ function checkWinner(){
 }
 function showMessage(){
     let width = boardEl.clientWidth;
-    msgEl.style.display = 'grid';
+    msgEl.style.display = 'block';
     msgEl.style.width = `${width}px`;
     msgEl.style.height = `${width}px`;
     replayBtn.style.display = 'revert';

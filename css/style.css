@@ -58,6 +58,11 @@ main {
     align-items: center;
     grid-area: 1 / 1 / 3 / 2;
 }
+.msg > p {
+    padding: 40%;
+    width: 100%;
+    height: auto;
+}
 .replay, .board-size {
     cursor: pointer;
     width: 110px;
