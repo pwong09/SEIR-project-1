@@ -34,7 +34,6 @@ boardSizeEl.addEventListener('click', changeBoardSize)
 replayBtn.addEventListener('click', init);
 boardEl.addEventListener('contextmenu', handleRightClick);
 boardEl.addEventListener('click', handleLeftClick);
-//boardEl.addEventListener('long-press', handleRightClick);
 
 /*----game play functions----*/
 function changeBoardSize(e){
@@ -266,17 +265,31 @@ function randomIndex(){
     return index;
 }
 
-//touch and hold
+//touch and hold for iOS devices to add flags
+const touchDuration = 300; 
 let timerInterval;
 
+
 function touchstart(e) {
-    setTimeout(() => {
-        handleRightClick(e);
-    }, 300);
+    e.preventDefault();
+    let sq = e.target;
+    timer(touchDuration);
+    function timer(interval) {
+
+        interval--;
+    
+        if (interval >= 0) {
+            timerInterval = setTimeout(() => {
+                timer(interval);
+            });
+        } else {
+            handleRightClick(e);
+        }
+    }
 }
 
 function touchend() {
-    clearTimeout();
+    clearTimeout(timerInterval);
 }
 
 
