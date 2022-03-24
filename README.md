@@ -26,3 +26,5 @@ If a square containing a mine is clicked on, the game ends.
 ### Future Enhancements
 - add sound effect for bomb reveal
 - add animation for multiple safe square reveals
+- make rectangular board options
+- add a timer

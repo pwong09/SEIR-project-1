@@ -32,36 +32,33 @@ const msgTextEl = document.querySelector('.msg > p')
 
 /*----Event Listeners----*/
 boardSizeEl.addEventListener('click', changeBoardSize)
-replayBtn.addEventListener('click', init);
 boardEl.addEventListener('contextmenu', handleRightClick);
 boardEl.addEventListener('click', handleLeftClick);
 boardEl.addEventListener('touchstart',touchstart);
 boardEl.addEventListener('touchend',touchend);
+replayBtn.addEventListener('click', init);
 
 /*----game play functions----*/
 function changeBoardSize(e){
     if (e.target.tagName === 'DIV') return
-    if (e.target.className === 'board-size') {
+    if (e.target.tagName === 'BUTTON') {
         boardEl.style.display = 'grid';
         if (e.target.innerText === 'Easy') {
             rows = 8;
             cols = 8;
-            boardSize = rows * cols;
         } else if (e.target.innerText === 'Medium') {
             rows = 10;
             cols = 10;
-            boardSize = rows * cols;
         } else if (e.target.innerText === 'Hard') {
             rows = 20;
             cols = 20;
-            boardSize = rows * cols;
         }
     }
 makeBoard();
 init();
 }
 
-function init(e){
+function init(){
     squareEls.forEach(sq => {
         sq.innerText = '';
         sq.id = 'hidden'
@@ -78,7 +75,6 @@ function init(e){
 
 function render(){
     if (lose) {
-        msgEl.style.color = 'yellow';
         msgTextEl.innerText = 'Game Over';
         }
     if (win) {
@@ -106,7 +102,6 @@ function handleLeftClick(e){
     let y = parseInt(sq.getAttribute('data-y'));
     if (board[x][y] === bomb) {
         sq.id = 'bomb';
-        sq.innerText = '💣';
         lose = true;
     } else {
         checkNeighbors(x, y);
@@ -152,6 +147,7 @@ function showMessage(){
     replayBtn.style.display = 'revert';
 }
 function makeBoard(){
+    /*---make board, all squares start as safe---*/
     board = [];
     for (let i = 0; i < rows; i++){
         board[i] = [];
@@ -164,7 +160,7 @@ function makeBoard(){
     boardSize = rows * cols;
     boardEl.style.gridTemplateColumns = `repeat(${rows}, 1fr)`;
     boardEl.style.gridTemplateRows =  `repeat(${cols}, 1fr)`;
-    /*make the board's squares and coordinates*/
+    /*---make the board's squares and coordinates when selecting or changing difficulty level---*/
     if (boardEl.childElementCount === 0 || boardEl.childElementCount !== boardSize) {
     while (boardEl.firstChild) {
         boardEl.removeChild(boardEl.firstChild);
@@ -253,7 +249,7 @@ function checkNeighbors(coordX, coordY) {
     squareEls.forEach(sq => {
         let x = parseInt(sq.getAttribute('data-x'));
         let y = parseInt(sq.getAttribute('data-y'));
-        if (coordX ===x && coordY === y) sq.id = 'safe'; //center
+        if (coordX ===x && coordY === y) sq.id = 'safe';
         if (((coordX + 1) === x || (coordX - 1) === x) && coordY === y && board[x][y] === safe) sq.id = 'safe'; 
         if (((coordY + 1) === y || (coordY - 1) === y) && coordX ===x && board[x][y] === safe) sq.id = 'safe'; 
         if (((coordX - 1) ===x || (coordX + 1) ===x) && ((coordY - 1) === y || (coordY + 1) === y) && board[x][y] === safe) sq.id = 'safe';
@@ -266,7 +262,7 @@ function randomIndex(){
     return index;
 }
 
-//only for touch and hold for iOS devices to add flags
+/*---only for touch and hold for iOS devices to add flags---*/
 const touchDuration = 200; 
 let timerInterval;
 
