@@ -47,12 +47,10 @@ function changeBoardSize(e){
             rows = 8;
             cols = 8;
             boardSize = rows * cols;
-
         } else if (e.target.innerText === 'Medium') {
             rows = 10;
             cols = 10;
             boardSize = rows * cols;
-
         } else if (e.target.innerText === 'Hard') {
             rows = 20;
             cols = 20;
@@ -169,7 +167,7 @@ function makeBoard(){
     /*make the board's squares and coordinates*/
     if (boardEl.childElementCount === 0 || boardEl.childElementCount !== boardSize) {
     while (boardEl.firstChild) {
-            boardEl.removeChild(boardEl.firstChild);
+        boardEl.removeChild(boardEl.firstChild);
     }
     let x = 0;
     let y = 0;
@@ -256,7 +254,7 @@ function checkNeighbors(coordX, coordY) {
         let x = parseInt(sq.getAttribute('data-x'));
         let y = parseInt(sq.getAttribute('data-y'));
         if (coordX ===x && coordY === y) sq.id = 'safe'; //center
-        if (((coordX + 1) ===x || (coordX - 1) === x) && coordY === y && board[x][y] === safe) sq.id = 'safe'; 
+        if (((coordX + 1) === x || (coordX - 1) === x) && coordY === y && board[x][y] === safe) sq.id = 'safe'; 
         if (((coordY + 1) === y || (coordY - 1) === y) && coordX ===x && board[x][y] === safe) sq.id = 'safe'; 
         if (((coordX - 1) ===x || (coordX + 1) ===x) && ((coordY - 1) === y || (coordY + 1) === y) && board[x][y] === safe) sq.id = 'safe';
         if (sq.id === 'safe') sq.disabled = true;
@@ -268,18 +266,14 @@ function randomIndex(){
     return index;
 }
 
-//touch and hold for iOS devices to add flags
+//only for touch and hold for iOS devices to add flags
 const touchDuration = 200; 
 let timerInterval;
 
-
 function touchstart(e) {
-    let sq = e.target;
     timer(touchDuration);
     function timer(interval) {
-
         interval--;
-    
         if (interval >= 0) {
             timerInterval = setTimeout(() => {
                 timer(interval);

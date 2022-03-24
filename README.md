@@ -1,16 +1,17 @@
 # SEIR-project-1
 
 # Pearl's Minesweeper
-A revamped version of the classic logic-based, single-player computer game. The object of the game is to find the randomly placed "mines" by clicking on "safe" squares while either flagging the squares with mines or avoiding them entirely. You get clues from the safe squares about the number of adjacent mines, if any.  
+A revamped version of the classic logic-based, single-player computer game. The object of the game is to find the randomly placed mines by clicking on "safe" squares. Player can either flag the squares with mines or avoid them entirely. The player gets clues from the safe squares that indicate the number of adjacent mines, if any.  
 If a square containing a mine is clicked on, the game ends.  
 
 ### Gameplay Screenshots
 <p>
-    <img src="./screenshots/main-screen.png" alt="basic minesweeper board" style="height: auto; width: 200px;" />
-    <img src="./screenshots/mid-game.png" alt="mid-game" style="height: auto; width: 200px;" />
-    <img src="./screenshots/bomb-reveal.png" alt="bomb reveal" style="height: auto; width: 200px;" />
-    <img src="./screenshots/win.png" alt="win message" style="height: auto; width: 200px;" />
-    <img src="./screenshots/lose.png" alt="lose message" style="height: auto; width: 200px;" />
+    <img src="./screenshots/main-screen.png" alt="basic minesweeper board" style="height: 250px; width: 200px;" />
+    <img src="./screenshots/mid-game.png" alt="mid-game" style="height: 250px; width: 200px;" />
+    <img src="./screenshots/hard-board.png" alt="hard level" style="height: 250px; width: 200px;" />
+    <img src="./screenshots/bomb-reveal.png" alt="bomb reveal" style="height: 250px; width: 200px;" />
+    <img src="./screenshots/win.png" alt="win message" style="height: 250px; width: 200px;" />
+    <img src="./screenshots/lose.png" alt="lose message" style="height: 250px; width: 200px;" />
 </p>
 
 ### Technologies used:
