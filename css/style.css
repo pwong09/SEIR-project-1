@@ -15,6 +15,10 @@ body {
     align-items: center;
     justify-items: center;
 }
+a {
+    text-decoration: none;
+    color: maroon;
+}
 h1, h3 {
     margin: 15px auto;
     font-family: Bungee, Helvetica, sans-serif;
@@ -121,7 +125,27 @@ button#flag {
     background-repeat: no-repeat;
     background-position: center;
 }
-
+footer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-content: space-between;
+    align-items: center;
+}
+footer > .copyright {
+    font-size: 10px;
+}
+footer > .social {
+    display: flex;
+}
+.socials {
+    padding: 0 5px;
+}
+.socials img {
+    width: 3vw;
+    height: auto;
+}
 @media only screen and (min-width: 768px) {
     .board {
         width: 500px;
